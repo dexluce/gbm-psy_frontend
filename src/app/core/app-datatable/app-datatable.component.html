@@ -1,0 +1,25 @@
+<div fxLayout="column">
+  <mat-form-field>
+    <input matInput placeholder="Recherche" #input (keydown.enter)="loadData()">
+    <mat-icon matSuffix *ngIf="dataSource.loading | async">
+      <mat-spinner diameter="30"></mat-spinner>
+    </mat-icon>
+  </mat-form-field>
+
+  <mat-table [dataSource]="dataSource" matSort matSortDirection="asc" matSortDisableClear>
+    <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>{{column}}</mat-header-cell>
+      <mat-cell *matCellDef="let item">{{item[column]}}</mat-cell>
+    </ng-container>
+    
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    
+    <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClicked(row)"></mat-row>
+  </mat-table>
+
+  <mat-paginator
+    [length]="dataSource.total | async"
+    [pageSize]="10"
+    [pageSizeOptions]="[3, 5, 10]"
+  ></mat-paginator>
+</div>

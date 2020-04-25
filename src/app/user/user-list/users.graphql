@@ -1,0 +1,23 @@
+query users(
+  $orderBy: UserOrder
+  $filter: String
+  $pageNumber: Int
+  $pageSize: Int
+  ) {
+  users(
+    orderBy: $orderBy
+    filter: $filter
+    pageNumber: $pageNumber
+    pageSize: $pageSize
+  ) {
+    ...on UserConnection {
+      items {
+        id
+        firstname
+        lastname
+        email
+      }
+      total
+    }
+  }
+}

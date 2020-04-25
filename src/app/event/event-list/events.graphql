@@ -1,0 +1,22 @@
+query evenement(
+  $orderBy: EvenementOrder
+  $filter: String
+  $pageNumber: Int
+  $pageSize: Int
+  ) {
+  evenements(
+    orderBy: $orderBy
+    filter: $filter
+    pageNumber: $pageNumber
+    pageSize: $pageSize
+  ) {
+    ...on EvenementConnection {
+      items {
+        id
+        title
+        description
+      }
+      total
+    }
+  }
+}
