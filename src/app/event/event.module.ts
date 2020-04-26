@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EventListComponent } from './event-list/event-list.component';
-import { EventService } from './event.service';
 import { CoreModule } from '../core/core.module';
 
 @NgModule({
@@ -13,7 +12,6 @@ import { CoreModule } from '../core/core.module';
     CommonModule,
   ],
   providers: [
-    EventService,
   ],
 })
 export class EventModule { }

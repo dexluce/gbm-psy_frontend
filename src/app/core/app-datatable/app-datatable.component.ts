@@ -20,8 +20,8 @@ export class AppDatatableComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.dataSource.load({
       filter: '',
-      sortBy: '',
-      sortOrder: 'ASC',
+      orderBy: '',
+      orderOrder: 'ASC',
       pageNumber: 0,
       pageSize: 10
     });
@@ -40,8 +40,8 @@ export class AppDatatableComponent implements OnInit, AfterViewInit {
   loadData() {
     this.dataSource.load({
       filter: this.filter.nativeElement.value,
-      sortBy: this.sort.active,
-      sortOrder: this.sort.direction === 'asc' ? 'ASC' : 'DESC',
+      orderBy: this.sort.active,
+      orderDirection: this.sort.direction === 'asc' ? 'ASC' : 'DESC',
       pageNumber: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize,
     });

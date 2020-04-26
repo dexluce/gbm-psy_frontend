@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Evenement } from 'src/generated/graphql';
-import { PaginatedDatasourceFactory } from 'src/app/core/app-datatable/paginated-datasource.factory';
+import { Evenement, EvenementGQL } from 'src/generated/graphql';
+import { PaginatedDatasource } from 'src/app/core/app-datatable/paginated-datasource';
 
 @Component({
   selector: 'app-event-list',
@@ -9,10 +9,9 @@ import { PaginatedDatasourceFactory } from 'src/app/core/app-datatable/paginated
 })
 export class EventListComponent {
   displayedColumns = ['title', 'description'];
-  datasource;
+  datasource: PaginatedDatasource<Evenement>;
 
-  // constructor(public evenementsGql: EvenementsGQL) {
-  //   const datasource = PaginatedDatasourceFactory<Evenement>(evenementsGql, 'evenements');
-  //   this.datasource = new datasource();
-  // }
+  constructor(public evenementsGql: EvenementGQL) {
+    this.datasource = new PaginatedDatasource<Evenement>(evenementsGql);
+  }
 }

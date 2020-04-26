@@ -1,20 +1,24 @@
 query evenement(
-  $orderBy: EvenementOrder
+  $orderDirection: OrderDirection
+  $orderBy: String
   $filter: String
   $pageNumber: Int
   $pageSize: Int
   ) {
   evenements(
+    orderDirection: $orderDirection
     orderBy: $orderBy
     filter: $filter
     pageNumber: $pageNumber
     pageSize: $pageSize
   ) {
-    ...on EvenementConnection {
+    ...on EvenementPaginatedList {
       items {
-        id
-        title
-        description
+        ... on Evenement {
+          id
+          title
+          description
+        }
       }
       total
     }

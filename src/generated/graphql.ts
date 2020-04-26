@@ -59,22 +59,11 @@ export type Evenement = {
   files: Array<AppFile>;
 };
 
-export type EvenementConnection = {
-   __typename?: 'EvenementConnection';
-  items?: Maybe<Array<Evenement>>;
+export type EvenementPaginatedList = PaginatedList & {
+   __typename?: 'EvenementPaginatedList';
+  items: Array<PaginableRessource>;
   total: Scalars['Int'];
 };
-
-export type EvenementOrder = {
-  direction: OrderDirection;
-  field: EvenementOrderField;
-};
-
-/** Properties by which post connections can be ordered. */
-export enum EvenementOrderField {
-  Id = 'id',
-  Title = 'title'
-}
 
 export type LoginInput = {
   email: Scalars['String'];
@@ -120,22 +109,29 @@ export type MutationLoginArgs = {
   data: LoginInput;
 };
 
-/** Possible directions in which to order a list of items when provided an `orderBy` argument. */
 export enum OrderDirection {
-  Asc = 'asc',
-  Desc = 'desc'
+  Asc = 'ASC',
+  Desc = 'DESC'
 }
+
+export type PaginableRessource = User | Evenement | Meeting;
+
+export type PaginatedList = {
+  items: Array<PaginableRessource>;
+  total: Scalars['Int'];
+};
 
 export type Query = {
    __typename?: 'Query';
   me: User;
-  users: UserConnection;
-  evenements: EvenementConnection;
+  users: UserPaginatedList;
+  evenements: EvenementPaginatedList;
 };
 
 
 export type QueryUsersArgs = {
-  orderBy?: Maybe<UserOrder>;
+  orderBy?: Maybe<Scalars['String']>;
+  orderDirection?: Maybe<OrderDirection>;
   filter?: Maybe<Scalars['String']>;
   pageNumber?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
@@ -143,7 +139,8 @@ export type QueryUsersArgs = {
 
 
 export type QueryEvenementsArgs = {
-  orderBy?: Maybe<EvenementOrder>;
+  orderBy?: Maybe<Scalars['String']>;
+  orderDirection?: Maybe<OrderDirection>;
   filter?: Maybe<Scalars['String']>;
   pageNumber?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
@@ -185,26 +182,11 @@ export type User = {
   subscriptionsToEvenement: Array<SubscriptionToEvenement>;
 };
 
-export type UserConnection = {
-   __typename?: 'UserConnection';
-  items?: Maybe<Array<User>>;
+export type UserPaginatedList = PaginatedList & {
+   __typename?: 'UserPaginatedList';
+  items: Array<PaginableRessource>;
   total: Scalars['Int'];
 };
-
-export type UserOrder = {
-  direction: OrderDirection;
-  field: UserOrderField;
-};
-
-/** Properties by which post connections can be ordered. */
-export enum UserOrderField {
-  Id = 'id',
-  CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt',
-  FirstName = 'firstName',
-  LastName = 'lastName',
-  Email = 'email'
-}
 
 export type LoginMutationVariables = {
   email: Scalars['String'];
@@ -225,7 +207,8 @@ export type LoginMutation = (
 );
 
 export type EvenementQueryVariables = {
-  orderBy?: Maybe<EvenementOrder>;
+  orderDirection?: Maybe<OrderDirection>;
+  orderBy?: Maybe<Scalars['String']>;
   filter?: Maybe<Scalars['String']>;
   pageNumber?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
@@ -235,17 +218,18 @@ export type EvenementQueryVariables = {
 export type EvenementQuery = (
   { __typename?: 'Query' }
   & { evenements: (
-    { __typename?: 'EvenementConnection' }
-    & Pick<EvenementConnection, 'total'>
-    & { items?: Maybe<Array<(
+    { __typename?: 'EvenementPaginatedList' }
+    & Pick<EvenementPaginatedList, 'total'>
+    & { items: Array<{ __typename?: 'User' } | (
       { __typename?: 'Evenement' }
       & Pick<Evenement, 'id' | 'title' | 'description'>
-    )>> }
+    ) | { __typename?: 'Meeting' }> }
   ) }
 );
 
 export type UsersQueryVariables = {
-  orderBy?: Maybe<UserOrder>;
+  orderDirection?: Maybe<OrderDirection>;
+  orderBy?: Maybe<Scalars['String']>;
   filter?: Maybe<Scalars['String']>;
   pageNumber?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
@@ -255,12 +239,12 @@ export type UsersQueryVariables = {
 export type UsersQuery = (
   { __typename?: 'Query' }
   & { users: (
-    { __typename?: 'UserConnection' }
-    & Pick<UserConnection, 'total'>
-    & { items?: Maybe<Array<(
+    { __typename?: 'UserPaginatedList' }
+    & Pick<UserPaginatedList, 'total'>
+    & { items: Array<(
       { __typename?: 'User' }
       & Pick<User, 'id' | 'firstname' | 'lastname' | 'email'>
-    )>> }
+    ) | { __typename?: 'Evenement' } | { __typename?: 'Meeting' }> }
   ) }
 );
 
@@ -283,13 +267,15 @@ export const LoginDocument = gql`
     
   }
 export const EvenementDocument = gql`
-    query evenement($orderBy: EvenementOrder, $filter: String, $pageNumber: Int, $pageSize: Int) {
-  evenements(orderBy: $orderBy, filter: $filter, pageNumber: $pageNumber, pageSize: $pageSize) {
-    ... on EvenementConnection {
+    query evenement($orderDirection: OrderDirection, $orderBy: String, $filter: String, $pageNumber: Int, $pageSize: Int) {
+  evenements(orderDirection: $orderDirection, orderBy: $orderBy, filter: $filter, pageNumber: $pageNumber, pageSize: $pageSize) {
+    ... on EvenementPaginatedList {
       items {
-        id
-        title
-        description
+        ... on Evenement {
+          id
+          title
+          description
+        }
       }
       total
     }
@@ -305,14 +291,16 @@ export const EvenementDocument = gql`
     
   }
 export const UsersDocument = gql`
-    query users($orderBy: UserOrder, $filter: String, $pageNumber: Int, $pageSize: Int) {
-  users(orderBy: $orderBy, filter: $filter, pageNumber: $pageNumber, pageSize: $pageSize) {
-    ... on UserConnection {
+    query users($orderDirection: OrderDirection, $orderBy: String, $filter: String, $pageNumber: Int, $pageSize: Int) {
+  users(orderDirection: $orderDirection, orderBy: $orderBy, filter: $filter, pageNumber: $pageNumber, pageSize: $pageSize) {
+    ... on UserPaginatedList {
       items {
-        id
-        firstname
-        lastname
-        email
+        ... on User {
+          id
+          firstname
+          lastname
+          email
+        }
       }
       total
     }
@@ -341,7 +329,35 @@ export const UsersDocument = gql`
       }
       const result: IntrospectionResultData = {
   "__schema": {
-    "types": []
+    "types": [
+      {
+        "kind": "INTERFACE",
+        "name": "PaginatedList",
+        "possibleTypes": [
+          {
+            "name": "UserPaginatedList"
+          },
+          {
+            "name": "EvenementPaginatedList"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "PaginableRessource",
+        "possibleTypes": [
+          {
+            "name": "User"
+          },
+          {
+            "name": "Evenement"
+          },
+          {
+            "name": "Meeting"
+          }
+        ]
+      }
+    ]
   }
 };
       export default result;

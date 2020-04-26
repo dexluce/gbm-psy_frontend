@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { UsersGQL, User } from 'src/generated/graphql';
-import { PaginatedDatasourceFactory } from 'src/app/core/app-datatable/paginated-datasource.factory';
+import { PaginatedDatasource } from 'src/app/core/app-datatable/paginated-datasource';
 
 @Component({
   selector: 'app-user-list',
@@ -9,10 +9,9 @@ import { PaginatedDatasourceFactory } from 'src/app/core/app-datatable/paginated
 })
 export class UserListComponent {
   displayedColumns = ['firstname', 'lastname', 'email'];
-  datasource;
+  datasource: PaginatedDatasource<User>;
 
   constructor(public usersQql: UsersGQL) {
-    const datasource = PaginatedDatasourceFactory<User>(usersQql, 'users');
-    this.datasource = new datasource();
+    this.datasource = new PaginatedDatasource<User>(usersQql);
   }
 }

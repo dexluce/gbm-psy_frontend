@@ -1,22 +1,25 @@
 query users(
-  $orderBy: UserOrder
+  $orderDirection: OrderDirection
+  $orderBy: String
   $filter: String
   $pageNumber: Int
   $pageSize: Int
   ) {
   users(
+    orderDirection: $orderDirection
     orderBy: $orderBy
     filter: $filter
     pageNumber: $pageNumber
     pageSize: $pageSize
   ) {
-    ...on UserConnection {
+    ...on UserPaginatedList {
       items {
+      ...on User {
         id
         firstname
         lastname
         email
-      }
+      }}
       total
     }
   }
