@@ -4,6 +4,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { AuthGuard } from './auth/auth.guard';
 import { UserListComponent } from './user/user-list/user-list.component';
 import { EventListComponent } from './event/event-list/event-list.component';
+import { CreateEvenementComponent } from './event/create-evenement/create-evenement.component';
 
 
 const routes: Routes = [
@@ -21,7 +22,16 @@ const routes: Routes = [
       },
       {
         path: 'events',
-        component: EventListComponent,
+        children: [
+          {
+            path: '',
+            component: EventListComponent,
+          },
+          {
+            path: 'create',
+            component: CreateEvenementComponent,
+          }
+        ]
       }
     ]
   },

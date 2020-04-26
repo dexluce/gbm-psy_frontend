@@ -3,6 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-datatable',
@@ -18,6 +19,11 @@ export class AppDatatableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('input') filter: ElementRef;
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
     this.dataSource.load({
@@ -53,7 +59,7 @@ export class AppDatatableComponent implements OnInit, AfterViewInit {
     console.log('Row clicked: ', row);
   }
 
-  onCreateClicked(event: MouseEvent) {
-    this.createClicked.emit(event);
+  onCreateClicked() {
+    this.router.navigate(['create'], { relativeTo: this.route });
   }
 }
