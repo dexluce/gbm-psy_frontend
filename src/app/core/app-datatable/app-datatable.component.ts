@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, Inject, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge } from 'rxjs';
@@ -12,6 +12,8 @@ import { tap } from 'rxjs/operators';
 export class AppDatatableComponent implements OnInit, AfterViewInit {
   @Input() dataSource;
   @Input() displayedColumns: string[] = [];
+
+  @Output() createClicked = new EventEmitter<MouseEvent>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -49,5 +51,9 @@ export class AppDatatableComponent implements OnInit, AfterViewInit {
 
   onRowClicked(row) {
     console.log('Row clicked: ', row);
+  }
+
+  onCreateClicked(event: MouseEvent) {
+    this.createClicked.emit(event);
   }
 }

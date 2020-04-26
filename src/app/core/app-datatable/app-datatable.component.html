@@ -1,10 +1,16 @@
 <div fxLayout="column">
-  <mat-form-field>
-    <input matInput placeholder="Recherche" #input (keydown.enter)="loadData()">
-    <mat-icon matSuffix *ngIf="dataSource.loading | async">
-      <mat-spinner diameter="30"></mat-spinner>
-    </mat-icon>
-  </mat-form-field>
+  <mat-toolbar-row>
+    <mat-form-field>
+      <input matInput placeholder="Recherche" #input (keydown.enter)="loadData()">
+      <mat-icon matSuffix *ngIf="dataSource.loading | async">
+        <mat-spinner diameter="30"></mat-spinner>
+      </mat-icon>
+    </mat-form-field>
+    <span fxFlex="1 1 auto"></span>
+    <button mat-button (click)="onCreateClicked()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </mat-toolbar-row>
 
   <mat-table [dataSource]="dataSource" matSort matSortDirection="asc" matSortDisableClear>
     <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
