@@ -1,9 +1,9 @@
 import { DataSource } from '@angular/cdk/table';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { UsersGQL, EvenementGQL } from 'src/generated/graphql';
+import { UsersGQL, EvenementsGQL } from 'src/generated/graphql';
 import { map, take, tap, finalize } from 'rxjs/operators';
 
-type PaginableRessourceService = EvenementGQL | UsersGQL ;
+type PaginableRessourceService = EvenementsGQL | UsersGQL ;
 
 export class PaginatedDatasource<T> implements DataSource<T> {
   private listSubject = new BehaviorSubject<T[]>([]);

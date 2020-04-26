@@ -1,4 +1,4 @@
-query evenement(
+query evenements(
   $orderDirection: OrderDirection
   $orderBy: String
   $filter: String
@@ -12,15 +12,13 @@ query evenement(
     pageNumber: $pageNumber
     pageSize: $pageSize
   ) {
-    ...on EvenementPaginatedList {
-      items {
-        ... on Evenement {
-          id
-          title
-          description
-        }
+    items {
+      ... on Evenement {
+        id
+        title
+        description
       }
-      total
     }
+    total
   }
 }

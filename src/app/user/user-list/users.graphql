@@ -12,15 +12,13 @@ query users(
     pageNumber: $pageNumber
     pageSize: $pageSize
   ) {
-    ...on UserPaginatedList {
-      items {
-      ...on User {
-        id
-        firstname
-        lastname
-        email
-      }}
-      total
-    }
+    items {
+    ...on User {
+      id
+      firstname
+      lastname
+      email
+    }}
+    total
   }
 }

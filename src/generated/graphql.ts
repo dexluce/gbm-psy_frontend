@@ -59,12 +59,6 @@ export type Evenement = {
   files: Array<AppFile>;
 };
 
-export type EvenementPaginatedList = PaginatedList & {
-   __typename?: 'EvenementPaginatedList';
-  items: Array<PaginableRessource>;
-  total: Scalars['Int'];
-};
-
 export type LoginInput = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -117,6 +111,7 @@ export enum OrderDirection {
 export type PaginableRessource = User | Evenement | Meeting;
 
 export type PaginatedList = {
+   __typename?: 'PaginatedList';
   items: Array<PaginableRessource>;
   total: Scalars['Int'];
 };
@@ -124,8 +119,8 @@ export type PaginatedList = {
 export type Query = {
    __typename?: 'Query';
   me: User;
-  users: UserPaginatedList;
-  evenements: EvenementPaginatedList;
+  users: PaginatedList;
+  evenements: PaginatedList;
 };
 
 
@@ -182,12 +177,6 @@ export type User = {
   subscriptionsToEvenement: Array<SubscriptionToEvenement>;
 };
 
-export type UserPaginatedList = PaginatedList & {
-   __typename?: 'UserPaginatedList';
-  items: Array<PaginableRessource>;
-  total: Scalars['Int'];
-};
-
 export type LoginMutationVariables = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -206,7 +195,7 @@ export type LoginMutation = (
   ) }
 );
 
-export type EvenementQueryVariables = {
+export type EvenementsQueryVariables = {
   orderDirection?: Maybe<OrderDirection>;
   orderBy?: Maybe<Scalars['String']>;
   filter?: Maybe<Scalars['String']>;
@@ -215,11 +204,11 @@ export type EvenementQueryVariables = {
 };
 
 
-export type EvenementQuery = (
+export type EvenementsQuery = (
   { __typename?: 'Query' }
   & { evenements: (
-    { __typename?: 'EvenementPaginatedList' }
-    & Pick<EvenementPaginatedList, 'total'>
+    { __typename?: 'PaginatedList' }
+    & Pick<PaginatedList, 'total'>
     & { items: Array<{ __typename?: 'User' } | (
       { __typename?: 'Evenement' }
       & Pick<Evenement, 'id' | 'title' | 'description'>
@@ -239,8 +228,8 @@ export type UsersQueryVariables = {
 export type UsersQuery = (
   { __typename?: 'Query' }
   & { users: (
-    { __typename?: 'UserPaginatedList' }
-    & Pick<UserPaginatedList, 'total'>
+    { __typename?: 'PaginatedList' }
+    & Pick<PaginatedList, 'total'>
     & { items: Array<(
       { __typename?: 'User' }
       & Pick<User, 'id' | 'firstname' | 'lastname' | 'email'>
@@ -266,19 +255,17 @@ export const LoginDocument = gql`
     document = LoginDocument;
     
   }
-export const EvenementDocument = gql`
-    query evenement($orderDirection: OrderDirection, $orderBy: String, $filter: String, $pageNumber: Int, $pageSize: Int) {
+export const EvenementsDocument = gql`
+    query evenements($orderDirection: OrderDirection, $orderBy: String, $filter: String, $pageNumber: Int, $pageSize: Int) {
   evenements(orderDirection: $orderDirection, orderBy: $orderBy, filter: $filter, pageNumber: $pageNumber, pageSize: $pageSize) {
-    ... on EvenementPaginatedList {
-      items {
-        ... on Evenement {
-          id
-          title
-          description
-        }
+    items {
+      ... on Evenement {
+        id
+        title
+        description
       }
-      total
     }
+    total
   }
 }
     `;
@@ -286,24 +273,22 @@ export const EvenementDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class EvenementGQL extends Apollo.Query<EvenementQuery, EvenementQueryVariables> {
-    document = EvenementDocument;
+  export class EvenementsGQL extends Apollo.Query<EvenementsQuery, EvenementsQueryVariables> {
+    document = EvenementsDocument;
     
   }
 export const UsersDocument = gql`
     query users($orderDirection: OrderDirection, $orderBy: String, $filter: String, $pageNumber: Int, $pageSize: Int) {
   users(orderDirection: $orderDirection, orderBy: $orderBy, filter: $filter, pageNumber: $pageNumber, pageSize: $pageSize) {
-    ... on UserPaginatedList {
-      items {
-        ... on User {
-          id
-          firstname
-          lastname
-          email
-        }
+    items {
+      ... on User {
+        id
+        firstname
+        lastname
+        email
       }
-      total
     }
+    total
   }
 }
     `;
@@ -330,18 +315,6 @@ export const UsersDocument = gql`
       const result: IntrospectionResultData = {
   "__schema": {
     "types": [
-      {
-        "kind": "INTERFACE",
-        "name": "PaginatedList",
-        "possibleTypes": [
-          {
-            "name": "UserPaginatedList"
-          },
-          {
-            "name": "EvenementPaginatedList"
-          }
-        ]
-      },
       {
         "kind": "UNION",
         "name": "PaginableRessource",
