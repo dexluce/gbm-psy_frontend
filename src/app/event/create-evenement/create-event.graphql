@@ -1,0 +1,13 @@
+mutation CreateEvenement (
+  $title: String!,
+  $description: String,
+  $isValid: Boolean
+) {
+  createEvenement(data :{
+    title: $title,
+    description: $description,
+    isValid: $isValid
+  }) {
+    id
+  }
+}

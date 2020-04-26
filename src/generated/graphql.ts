@@ -21,7 +21,10 @@ export type AppFile = {
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   name: Scalars['String'];
-  url: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  src: Scalars['String'];
+  isPublic?: Maybe<Scalars['Boolean']>;
+  evenement: Evenement;
 };
 
 export type Auth = {
@@ -34,6 +37,12 @@ export type Auth = {
 export type ChangePasswordInput = {
   oldPassword: Scalars['String'];
   newPassword: Scalars['String'];
+};
+
+export type CreateEvenementInput = {
+  title: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  isValid?: Maybe<Scalars['Boolean']>;
 };
 
 export type CreateUserInput = {
@@ -80,6 +89,7 @@ export type Mutation = {
   createUser: User;
   updateUser: User;
   changePassword: User;
+  createEvenement: Evenement;
   login: Auth;
 };
 
@@ -96,6 +106,11 @@ export type MutationUpdateUserArgs = {
 
 export type MutationChangePasswordArgs = {
   data: ChangePasswordInput;
+};
+
+
+export type MutationCreateEvenementArgs = {
+  data: CreateEvenementInput;
 };
 
 
@@ -195,6 +210,21 @@ export type LoginMutation = (
   ) }
 );
 
+export type CreateEvenementMutationVariables = {
+  title: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  isValid?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type CreateEvenementMutation = (
+  { __typename?: 'Mutation' }
+  & { createEvenement: (
+    { __typename?: 'Evenement' }
+    & Pick<Evenement, 'id'>
+  ) }
+);
+
 export type EvenementsQueryVariables = {
   orderDirection?: Maybe<OrderDirection>;
   orderBy?: Maybe<Scalars['String']>;
@@ -253,6 +283,21 @@ export const LoginDocument = gql`
   })
   export class LoginGQL extends Apollo.Mutation<LoginMutation, LoginMutationVariables> {
     document = LoginDocument;
+    
+  }
+export const CreateEvenementDocument = gql`
+    mutation CreateEvenement($title: String!, $description: String, $isValid: Boolean) {
+  createEvenement(data: {title: $title, description: $description, isValid: $isValid}) {
+    id
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateEvenementGQL extends Apollo.Mutation<CreateEvenementMutation, CreateEvenementMutationVariables> {
+    document = CreateEvenementDocument;
     
   }
 export const EvenementsDocument = gql`

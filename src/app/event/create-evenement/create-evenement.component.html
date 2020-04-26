@@ -1,1 +1,25 @@
-<p>create-evenement works!</p>
+<mat-card>
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <h2>Créer une nouvelle formation/supervision</h2>
+      <mat-error *ngIf="formInvalid">
+        {{formInvalid}}
+      </mat-error>
+      <mat-form-field class="full-width-input">
+        <input matInput placeholder="Titre" formControlName="title" required>
+        <mat-error>
+          Veuillez entrer un titre pour votre formation
+        </mat-error>
+      </mat-form-field>
+      <mat-label>
+        La description complête de la nouvelle formation
+      </mat-label>
+      <ckeditor formControlName="description" [editor]="editor"></ckeditor>
+      <span></span>
+      <mat-checkbox class="full-width-input" formControlName="isValid">
+        <b>publier immédiatement.</b> La formation sera disponible à l'inscription depuis la liste des formations publics.
+      </mat-checkbox>
+      <button mat-raised-button color="primary" [disabled]="formSubmitAttempt">Créer</button>
+    </form>
+  </mat-card-content>
+</mat-card>

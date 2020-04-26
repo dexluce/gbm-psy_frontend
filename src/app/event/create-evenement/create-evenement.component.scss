@@ -1,0 +1,15 @@
+mat-card {
+  margin: 2em 2em;
+  text-align: center;
+}
+
+.full-width-input {
+  display: block;
+}
+
+::ng-deep .mat-checkbox-layout {
+  white-space: normal !important;
+}
+// :host ::ng-deep .ck-editor {
+//   min-height: 500px;
+// }
