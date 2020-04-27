@@ -56,7 +56,7 @@ export class AppDatatableComponent implements OnInit, AfterViewInit {
   }
 
   onRowClicked(row) {
-    console.log('Row clicked: ', row);
+    this.router.navigate([row.id], { relativeTo: this.route });
   }
 
   onCreateClicked() {
