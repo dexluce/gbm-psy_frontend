@@ -22,7 +22,7 @@ export class EventComponent implements OnInit {
     // Take params for initial panel open
     this.route.queryParams.pipe(take(1)).subscribe(
       (queryParams) => {
-        this.initialPanel = queryParams.initPanel;
+        this.initialPanel = queryParams.initPanel || 'meetings';
       }
     );
     // Query Evenement based on params id
