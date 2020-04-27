@@ -25,17 +25,17 @@ const routes: Routes = [
         path: 'events',
         children: [
           {
-            path: '',
-            component: EventListComponent,
-          },
-          {
             path: 'create',
             component: CreateEvenementComponent,
           },
           {
             path: ':id',
             component: EventComponent
-          }
+          },
+          {
+            path: '',
+            component: EventListComponent,
+          },
         ]
       }
     ]

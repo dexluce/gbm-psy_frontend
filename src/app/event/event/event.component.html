@@ -4,12 +4,38 @@
 </mat-card>
 
 <mat-card *ngIf="evenement">
-
   <mat-card-header>
     <h1>
       {{evenement.title}}
     </h1>
   </mat-card-header>
-  <mat-card-content [innerHTML]="evenement.description">
+
+  <mat-card-content>
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Description
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <span [innerHTML]="evenement.description">
+
+        </span>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="initialPanel === 'meetings'">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Cours
+          </mat-panel-title>
+          <mat-panel-description>
+            Accèdez aux informations des rendez-vous physique ainsi qu'aux liens vers les salles de rendez-vous virtuels.
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <app-meetings-in-evenement (evenementId)="evenement.id">
+        </app-meetings-in-evenement>
+      </mat-expansion-panel>
+    </mat-accordion>
   </mat-card-content>
 </mat-card>
