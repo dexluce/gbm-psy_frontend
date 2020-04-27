@@ -1,0 +1,32 @@
+<mat-card (click)="showForm = true" class="clickable" >
+  <mat-icon *ngIf="!showForm">
+    add
+  </mat-icon>
+  <form *ngIf="showForm" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <h2>Ajouter un rendez-vous</h2>
+
+    <mat-error *ngIf="formInvalid">
+      {{formInvalid}}
+    </mat-error>
+
+    <mat-form-field>
+      <mat-label>Choose a date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-checkbox [checked]="hasPhysicalAddress" (change)="hasPhysicalAddress = !hasPhysicalAddress">
+      Ce rendez-vous a-t-il un point de rencontre réel?
+    </mat-checkbox>
+
+    <mat-form-field *ngIf="hasPhysicalAddress">
+      <input
+        matInput
+        matGoogleMapsAutocomplete
+        (onAutocompleteSelected)="onAddressSelected($event)"
+      >
+    </mat-form-field>
+    <button mat-raised-button color="primary" [disabled]="formSubmitAttempt">Créer</button>
+  </form>
+</mat-card>

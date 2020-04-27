@@ -1,0 +1,13 @@
+mutation createMeetingInEvenement(
+  $evenementId: String!
+  $date: DateTime!
+  $physicalAddress: String
+) {
+  createMeeting(data: {
+    evenementId: $evenementId,
+    date: $date,
+    physicalAddress: $physicalAddress,
+  }) {
+    id
+  }
+}

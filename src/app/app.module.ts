@@ -13,6 +13,8 @@ import { TokenInterceptor } from './token.interceptor';
 import { UserModule } from './user/user.module';
 import { EventModule } from './event/event.module';
 import { GraphQLModule } from './graphql.module';
+import { AgmCoreModule } from '@agm/core';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,10 @@ import { GraphQLModule } from './graphql.module';
     UserModule,
     EventModule,
     GraphQLModule,
+    AgmCoreModule.forRoot({
+      apiKey: environment.googleMapApiKey,
+      libraries: ['places']
+    }),
   ],
   providers: [
     {

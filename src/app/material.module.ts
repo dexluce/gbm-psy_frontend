@@ -18,6 +18,9 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
 
 @NgModule({
   imports: [
@@ -39,6 +42,9 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatToolbarModule,
     MatExpansionModule,
     MatGridListModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatGoogleMapsAutocompleteModule,
   ],
   exports: [
     MatButtonModule,
@@ -59,6 +65,9 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatCheckboxModule,
     MatExpansionModule,
     MatGridListModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatGoogleMapsAutocompleteModule,
   ]
 })
 export class MaterialModule { }

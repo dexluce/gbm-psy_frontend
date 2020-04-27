@@ -28,12 +28,9 @@
           <mat-panel-title>
             Cours
           </mat-panel-title>
-          <mat-panel-description>
-            Accèdez aux informations des rendez-vous physique ainsi qu'aux liens vers les salles de rendez-vous virtuels.
-          </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <app-meetings-in-evenement (evenementId)="evenement.id">
+        <app-meetings-in-evenement [evenementId]="evenement.id">
         </app-meetings-in-evenement>
       </mat-expansion-panel>
     </mat-accordion>

@@ -12,6 +12,8 @@
   },
   "private": true,
   "dependencies": {
+    "@agm/core": "^1.1.0",
+    "@angular-material-extensions/google-maps-autocomplete": "^4.0.1",
     "@angular/animations": "~9.0.3",
     "@angular/cdk": "^9.2.1",
     "@angular/common": "~9.0.3",
@@ -25,6 +27,7 @@
     "@angular/router": "~9.0.3",
     "@ckeditor/ckeditor5-angular": "^1.2.3",
     "@ckeditor/ckeditor5-build-classic": "^18.0.0",
+    "@types/googlemaps": "^3.39.2",
     "apollo-angular": "^1.9.1",
     "apollo-angular-link-http": "^1.10.0",
     "apollo-cache-inmemory": "^1.6.0",
@@ -42,6 +45,14 @@
     "@angular/compiler-cli": "~9.0.3",
     "@angular/language-service": "~9.0.3",
     "@graphql-codegen/cli": "1.13.3",
+    "@graphql-codegen/fragment-matcher": "1.13.3",
+    "@graphql-codegen/introspection": "1.13.3",
+    "@graphql-codegen/typescript": "1.13.3",
+    "@graphql-codegen/typescript-apollo-angular": "1.13.3",
+    "@graphql-codegen/typescript-document-nodes": "1.13.3",
+    "@graphql-codegen/typescript-graphql-files-modules": "1.13.3",
+    "@graphql-codegen/typescript-operations": "1.13.3",
+    "@types/googlemaps": "^3.39.3",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
@@ -56,13 +67,6 @@
     "protractor": "~5.4.3",
     "ts-node": "~8.3.0",
     "tslint": "~5.18.0",
-    "typescript": "~3.7.5",
-    "@graphql-codegen/typescript": "1.13.3",
-    "@graphql-codegen/typescript-operations": "1.13.3",
-    "@graphql-codegen/typescript-apollo-angular": "1.13.3",
-    "@graphql-codegen/typescript-graphql-files-modules": "1.13.3",
-    "@graphql-codegen/typescript-document-nodes": "1.13.3",
-    "@graphql-codegen/fragment-matcher": "1.13.3",
-    "@graphql-codegen/introspection": "1.13.3"
+    "typescript": "~3.7.5"
   }
 }

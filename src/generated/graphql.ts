@@ -45,6 +45,12 @@ export type CreateEvenementInput = {
   isValid?: Maybe<Scalars['Boolean']>;
 };
 
+export type CreateMeetingInput = {
+  evenementId: Scalars['String'];
+  date: Scalars['DateTime'];
+  physicalAddress?: Maybe<Scalars['String']>;
+};
+
 export type CreateUserInput = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -90,6 +96,7 @@ export type Mutation = {
   updateUser: User;
   changePassword: User;
   createEvenement: Evenement;
+  createMeeting: Meeting;
   login: Auth;
 };
 
@@ -111,6 +118,11 @@ export type MutationChangePasswordArgs = {
 
 export type MutationCreateEvenementArgs = {
   data: CreateEvenementInput;
+};
+
+
+export type MutationCreateMeetingArgs = {
+  data: CreateMeetingInput;
 };
 
 
@@ -279,6 +291,21 @@ export type EvenementQuery = (
   ) }
 );
 
+export type CreateMeetingInEvenementMutationVariables = {
+  evenementId: Scalars['String'];
+  date: Scalars['DateTime'];
+  physicalAddress?: Maybe<Scalars['String']>;
+};
+
+
+export type CreateMeetingInEvenementMutation = (
+  { __typename?: 'Mutation' }
+  & { createMeeting: (
+    { __typename?: 'Meeting' }
+    & Pick<Meeting, 'id'>
+  ) }
+);
+
 export type UsersQueryVariables = {
   orderDirection?: Maybe<OrderDirection>;
   orderBy?: Maybe<Scalars['String']>;
@@ -392,6 +419,21 @@ export const EvenementDocument = gql`
   })
   export class EvenementGQL extends Apollo.Query<EvenementQuery, EvenementQueryVariables> {
     document = EvenementDocument;
+    
+  }
+export const CreateMeetingInEvenementDocument = gql`
+    mutation createMeetingInEvenement($evenementId: String!, $date: DateTime!, $physicalAddress: String) {
+  createMeeting(data: {evenementId: $evenementId, date: $date, physicalAddress: $physicalAddress}) {
+    id
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateMeetingInEvenementGQL extends Apollo.Mutation<CreateMeetingInEvenementMutation, CreateMeetingInEvenementMutationVariables> {
+    document = CreateMeetingInEvenementDocument;
     
   }
 export const UsersDocument = gql`

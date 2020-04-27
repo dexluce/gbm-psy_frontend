@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   backendUrl: 'http://localhost:3000',
+  googleMapApiKey: 'AIzaSyAmMJtfRP4fm2dzs3O9wiT-bATexdMBFcs'
 };
 
 /*
