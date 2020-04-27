@@ -1,0 +1,29 @@
+query evenement($id: String!) {
+  evenement(evenementId: $id) {
+    id
+    title
+    description
+    files {
+      id
+      name
+      description
+      src
+      isPublic
+    }
+    subscriptionsToEvenement {
+      id
+      isInstructor
+      isValid
+      user {
+        id
+        email
+      }
+    }
+    meetings {
+      id
+      date
+      virtualAddress
+      physicalAddress
+    }
+  }
+}

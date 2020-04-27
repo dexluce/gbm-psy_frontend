@@ -5,6 +5,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { UserListComponent } from './user/user-list/user-list.component';
 import { EventListComponent } from './event/event-list/event-list.component';
 import { CreateEvenementComponent } from './event/create-evenement/create-evenement.component';
+import { EventComponent } from './event/event/event.component';
 
 
 const routes: Routes = [
@@ -30,6 +31,10 @@ const routes: Routes = [
           {
             path: 'create',
             component: CreateEvenementComponent,
+          },
+          {
+            path: ':id',
+            component: EventComponent
           }
         ]
       }

@@ -6,11 +6,13 @@ import { CreateEvenementComponent } from './create-evenement/create-evenement.co
 import { MaterialModule } from '../material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { EventComponent } from './event/event.component';
 
 @NgModule({
   declarations: [
     EventListComponent,
     CreateEvenementComponent,
+    EventComponent,
   ],
   imports: [
     CoreModule,

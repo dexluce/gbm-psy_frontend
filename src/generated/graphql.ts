@@ -135,6 +135,7 @@ export type Query = {
    __typename?: 'Query';
   me: User;
   users: PaginatedList;
+  evenement: Evenement;
   evenements: PaginatedList;
 };
 
@@ -145,6 +146,11 @@ export type QueryUsersArgs = {
   filter?: Maybe<Scalars['String']>;
   pageNumber?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryEvenementArgs = {
+  evenementId: Scalars['String'];
 };
 
 
@@ -246,6 +252,33 @@ export type EvenementsQuery = (
   ) }
 );
 
+export type EvenementQueryVariables = {
+  id: Scalars['String'];
+};
+
+
+export type EvenementQuery = (
+  { __typename?: 'Query' }
+  & { evenement: (
+    { __typename?: 'Evenement' }
+    & Pick<Evenement, 'id' | 'title' | 'description'>
+    & { files: Array<(
+      { __typename?: 'AppFile' }
+      & Pick<AppFile, 'id' | 'name' | 'description' | 'src' | 'isPublic'>
+    )>, subscriptionsToEvenement: Array<(
+      { __typename?: 'SubscriptionToEvenement' }
+      & Pick<SubscriptionToEvenement, 'id' | 'isInstructor' | 'isValid'>
+      & { user: (
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'email'>
+      ) }
+    )>, meetings: Array<(
+      { __typename?: 'Meeting' }
+      & Pick<Meeting, 'id' | 'date' | 'virtualAddress' | 'physicalAddress'>
+    )> }
+  ) }
+);
+
 export type UsersQueryVariables = {
   orderDirection?: Maybe<OrderDirection>;
   orderBy?: Maybe<Scalars['String']>;
@@ -320,6 +353,45 @@ export const EvenementsDocument = gql`
   })
   export class EvenementsGQL extends Apollo.Query<EvenementsQuery, EvenementsQueryVariables> {
     document = EvenementsDocument;
+    
+  }
+export const EvenementDocument = gql`
+    query evenement($id: String!) {
+  evenement(evenementId: $id) {
+    id
+    title
+    description
+    files {
+      id
+      name
+      description
+      src
+      isPublic
+    }
+    subscriptionsToEvenement {
+      id
+      isInstructor
+      isValid
+      user {
+        id
+        email
+      }
+    }
+    meetings {
+      id
+      date
+      virtualAddress
+      physicalAddress
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EvenementGQL extends Apollo.Query<EvenementQuery, EvenementQueryVariables> {
+    document = EvenementDocument;
     
   }
 export const UsersDocument = gql`
