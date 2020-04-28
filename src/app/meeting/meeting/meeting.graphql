@@ -1,0 +1,5 @@
+query meeting($id: String!) {
+  meeting(id: $id) {
+    ...meeting
+  }
+}

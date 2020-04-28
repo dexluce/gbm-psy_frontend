@@ -21,9 +21,9 @@
         </ng-container>
 
         <ng-container *ngIf="meeting.jitsiMeetToken">
-          <mat-card>
+          <a mat-button [routerLink]="['/admin/meeting', meeting.id]">
             Rejoindre la salle virtuelle
-          </mat-card>
+          </a>
         </ng-container>
       </mat-card-content>
     </mat-card>

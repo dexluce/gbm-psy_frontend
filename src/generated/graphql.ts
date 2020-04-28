@@ -85,6 +85,7 @@ export type Meeting = {
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   date: Scalars['DateTime'];
+  virtualAddress?: Maybe<Scalars['String']>;
   physicalAddress?: Maybe<Scalars['String']>;
   jitsiMeetToken?: Maybe<Scalars['String']>;
   evenement: Evenement;
@@ -149,6 +150,7 @@ export type Query = {
   users: PaginatedList;
   evenement: Evenement;
   evenements: PaginatedList;
+  meeting: Meeting;
   meetingsForEvenement: Array<Meeting>;
 };
 
@@ -173,6 +175,11 @@ export type QueryEvenementsArgs = {
   filter?: Maybe<Scalars['String']>;
   pageNumber?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryMeetingArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -297,7 +304,7 @@ export type EvenementQuery = (
 
 export type MeetingFragment = (
   { __typename?: 'Meeting' }
-  & Pick<Meeting, 'id' | 'date' | 'jitsiMeetToken' | 'physicalAddress'>
+  & Pick<Meeting, 'id' | 'date' | 'jitsiMeetToken' | 'physicalAddress' | 'virtualAddress'>
 );
 
 export type MeetingsForEvenementFragment = (
@@ -320,6 +327,19 @@ export type CreateMeetingInEvenementMutation = (
   & { createMeeting: (
     { __typename?: 'Meeting' }
     & Pick<Meeting, 'id'>
+  ) }
+);
+
+export type MeetingQueryVariables = {
+  id: Scalars['String'];
+};
+
+
+export type MeetingQuery = (
+  { __typename?: 'Query' }
+  & { meeting: (
+    { __typename?: 'Meeting' }
+    & MeetingFragment
   ) }
 );
 
@@ -363,6 +383,7 @@ export const MeetingFragmentDoc = gql`
   date
   jitsiMeetToken
   physicalAddress
+  virtualAddress
 }
     `;
 export const MeetingsForEvenementFragmentDoc = gql`
@@ -474,6 +495,21 @@ export const CreateMeetingInEvenementDocument = gql`
   })
   export class CreateMeetingInEvenementGQL extends Apollo.Mutation<CreateMeetingInEvenementMutation, CreateMeetingInEvenementMutationVariables> {
     document = CreateMeetingInEvenementDocument;
+    
+  }
+export const MeetingDocument = gql`
+    query meeting($id: String!) {
+  meeting(id: $id) {
+    ...meeting
+  }
+}
+    ${MeetingFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MeetingGQL extends Apollo.Query<MeetingQuery, MeetingQueryVariables> {
+    document = MeetingDocument;
     
   }
 export const MeetingsInEvenementDocument = gql`

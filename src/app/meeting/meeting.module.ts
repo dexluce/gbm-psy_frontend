@@ -4,19 +4,19 @@ import { MeetingsInEvenementComponent } from './meetings-in-evenement/meetings-i
 import { MaterialModule } from '../material.module';
 import { CreateMeetingTileComponent } from './create-meeting-tile/create-meeting-tile.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
-import { AgmCoreModule } from '@agm/core';
-import { environment } from 'src/environments/environment';
+import { MeetingComponent } from './meeting/meeting.component';
+import { RouterModule } from '@angular/router';
 
-
+declare var JitsiMeetExternalAPI: any;
 
 @NgModule({
-  declarations: [MeetingsInEvenementComponent, CreateMeetingTileComponent],
+  declarations: [MeetingsInEvenementComponent, CreateMeetingTileComponent, MeetingComponent],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    RouterModule,
   ],
   exports: [
     MeetingsInEvenementComponent,

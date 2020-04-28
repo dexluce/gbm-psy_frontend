@@ -6,6 +6,7 @@ import { UserListComponent } from './user/user-list/user-list.component';
 import { EventListComponent } from './event/event-list/event-list.component';
 import { CreateEvenementComponent } from './event/create-evenement/create-evenement.component';
 import { EventComponent } from './event/event/event.component';
+import { MeetingComponent } from './meeting/meeting/meeting.component';
 
 
 const routes: Routes = [
@@ -37,6 +38,10 @@ const routes: Routes = [
             component: EventListComponent,
           },
         ]
+      },
+      {
+        path: 'meeting/:id',
+        component: MeetingComponent
       }
     ]
   },
