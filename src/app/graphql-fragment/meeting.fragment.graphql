@@ -1,0 +1,6 @@
+fragment meeting on Meeting {
+  id
+  date
+  jitsiMeetToken
+  physicalAddress
+}

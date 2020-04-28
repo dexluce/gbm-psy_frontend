@@ -19,11 +19,6 @@ query evenement($id: String!) {
         email
       }
     }
-    meetings {
-      id
-      date
-      virtualAddress
-      physicalAddress
-    }
+    ...meetingsForEvenement
   }
 }
