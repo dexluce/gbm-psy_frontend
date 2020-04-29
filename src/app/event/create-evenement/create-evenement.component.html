@@ -16,8 +16,11 @@
       </mat-label>
       <ckeditor formControlName="description" [editor]="editor"></ckeditor>
       <span></span>
-      <mat-checkbox class="full-width-input" formControlName="isValid">
-        <b>publier immédiatement.</b> La formation sera disponible à l'inscription depuis la liste des formations publics.
+      <mat-checkbox class="full-width-input" formControlName="isActive">
+        <b>Ouvrir.</b> La formation sera ouverte aux inscriptions
+      </mat-checkbox>
+      <mat-checkbox class="full-width-input" formControlName="isPublic">
+        <b>Publier.</b> La formation sera afficher dans la liste des formations public
       </mat-checkbox>
       <button mat-raised-button color="primary" [disabled]="formSubmitAttempt">Créer</button>
     </form>

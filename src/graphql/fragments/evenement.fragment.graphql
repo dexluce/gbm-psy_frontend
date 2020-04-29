@@ -4,5 +4,6 @@ fragment evenement on Evenement {
   updatedAt
   title
   description
-  isValid
+  isActive
+  isPublic
 }

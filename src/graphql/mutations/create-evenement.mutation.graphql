@@ -1,12 +1,14 @@
 mutation CreateEvenement (
   $title: String!,
   $description: String,
-  $isValid: Boolean
+  $isActive: Boolean,
+  $isPublic: Boolean
 ) {
   createEvenement(data :{
     title: $title,
     description: $description,
-    isValid: $isValid
+    isActive: $isActive,
+    isPublic: $isPublic
   }) {
     ...evenement
   }

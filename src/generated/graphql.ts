@@ -42,7 +42,8 @@ export type ChangePasswordInput = {
 export type CreateEvenementInput = {
   title: Scalars['String'];
   description?: Maybe<Scalars['String']>;
-  isValid?: Maybe<Scalars['Boolean']>;
+  isActive?: Maybe<Scalars['Boolean']>;
+  isPublic?: Maybe<Scalars['Boolean']>;
 };
 
 export type CreateMeetingInput = {
@@ -70,7 +71,8 @@ export type Evenement = {
   description?: Maybe<Scalars['String']>;
   subscriptionsToEvenement: Array<SubscriptionToEvenement>;
   meetings: Array<Meeting>;
-  isValid: Scalars['Boolean'];
+  isActive: Scalars['Boolean'];
+  isPublic: Scalars['Boolean'];
   files: Array<AppFile>;
 };
 
@@ -203,6 +205,7 @@ export type SubscriptionToEvenement = {
   evenement: Evenement;
   isInstructor: Scalars['Boolean'];
   isValid: Scalars['Boolean'];
+  isCertified: Scalars['Boolean'];
 };
 
 export type UpdateUserInput = {
@@ -225,7 +228,7 @@ export type User = {
 
 export type EvenementFragment = (
   { __typename?: 'Evenement' }
-  & Pick<Evenement, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'description' | 'isValid'>
+  & Pick<Evenement, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'description' | 'isActive' | 'isPublic'>
 );
 
 export type AppFileFragment = (
@@ -240,7 +243,7 @@ export type MeetingFragment = (
 
 export type SubscriptionToEvenementFragment = (
   { __typename?: 'SubscriptionToEvenement' }
-  & Pick<SubscriptionToEvenement, 'id' | 'createdAt' | 'updatedAt' | 'isInstructor' | 'isValid'>
+  & Pick<SubscriptionToEvenement, 'id' | 'createdAt' | 'updatedAt' | 'isInstructor' | 'isValid' | 'isCertified'>
 );
 
 export type UserFragment = (
@@ -251,7 +254,8 @@ export type UserFragment = (
 export type CreateEvenementMutationVariables = {
   title: Scalars['String'];
   description?: Maybe<Scalars['String']>;
-  isValid?: Maybe<Scalars['Boolean']>;
+  isActive?: Maybe<Scalars['Boolean']>;
+  isPublic?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -417,7 +421,8 @@ export const EvenementFragmentDoc = gql`
   updatedAt
   title
   description
-  isValid
+  isActive
+  isPublic
 }
     `;
 export const AppFileFragmentDoc = gql`
@@ -449,6 +454,7 @@ export const SubscriptionToEvenementFragmentDoc = gql`
   updatedAt
   isInstructor
   isValid
+  isCertified
 }
     `;
 export const UserFragmentDoc = gql`
@@ -464,8 +470,8 @@ export const UserFragmentDoc = gql`
 }
     `;
 export const CreateEvenementDocument = gql`
-    mutation CreateEvenement($title: String!, $description: String, $isValid: Boolean) {
-  createEvenement(data: {title: $title, description: $description, isValid: $isValid}) {
+    mutation CreateEvenement($title: String!, $description: String, $isActive: Boolean, $isPublic: Boolean) {
+  createEvenement(data: {title: $title, description: $description, isActive: $isActive, isPublic: $isPublic}) {
     ...evenement
   }
 }

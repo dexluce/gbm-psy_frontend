@@ -27,7 +27,8 @@ export class CreateEvenementComponent implements OnInit {
     this.form = this.fb.group({
       title: ['', Validators.required],
       description: ['<p>Entrer votre description ici</p>'],
-      isValid: [false, Validators.required],
+      isActive: [false, Validators.required],
+      isPublic: [false, Validators.required],
     });
   }
 
@@ -39,7 +40,8 @@ export class CreateEvenementComponent implements OnInit {
       this.createEvenementService.mutate({
         title: this.form.get('title').value,
         description: this.form.get('description').value,
-        isValid: this.form.get('isValid').value
+        isActive: this.form.get('isActive').value,
+        isPublic: this.form.get('isPublic').value
       }).pipe(
         take(1),
         tap(() => this.router.navigate(['events'])),
