@@ -1,0 +1,13 @@
+fragment user on User {
+  id
+  createdAt
+  updatedAt
+  email
+  firstname
+  isActive
+  lastname
+  role
+  subscriptionsToEvenement {
+    id
+  }
+}

@@ -236,7 +236,7 @@ export type LoginMutation = (
     & Pick<Auth, 'token'>
     & { user: (
       { __typename?: 'User' }
-      & Pick<User, 'id'>
+      & UserFragment
     ) }
   ) }
 );
@@ -312,6 +312,15 @@ export type MeetingsForEvenementFragment = (
   & { meetings: Array<(
     { __typename?: 'Meeting' }
     & MeetingFragment
+  )> }
+);
+
+export type UserFragment = (
+  { __typename?: 'User' }
+  & Pick<User, 'id' | 'createdAt' | 'updatedAt' | 'email' | 'firstname' | 'isActive' | 'lastname' | 'role'>
+  & { subscriptionsToEvenement: Array<(
+    { __typename?: 'SubscriptionToEvenement' }
+    & Pick<SubscriptionToEvenement, 'id'>
   )> }
 );
 
@@ -393,16 +402,31 @@ export const MeetingsForEvenementFragmentDoc = gql`
   }
 }
     ${MeetingFragmentDoc}`;
+export const UserFragmentDoc = gql`
+    fragment user on User {
+  id
+  createdAt
+  updatedAt
+  email
+  firstname
+  isActive
+  lastname
+  role
+  subscriptionsToEvenement {
+    id
+  }
+}
+    `;
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(data: {email: $email, password: $password}) {
     token
     user {
-      id
+      ...user
     }
   }
 }
-    `;
+    ${UserFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
