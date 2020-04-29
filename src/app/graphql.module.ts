@@ -17,7 +17,7 @@ const linkError = onError(({ graphQLErrors, networkError }) => {
           location.reload();
           break;
         default:
-          throw graphQLError;
+          break;
       }
     });
   }
