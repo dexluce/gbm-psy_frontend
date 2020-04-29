@@ -1,0 +1,8 @@
+fragment evenement on Evenement {
+  id
+  createdAt
+  updatedAt
+  title
+  description
+  isValid
+}

@@ -1,0 +1,9 @@
+fragment appFile on AppFile {
+  id
+  createdAt
+  updatedAt
+  name
+  description
+  src
+  isPublic
+}

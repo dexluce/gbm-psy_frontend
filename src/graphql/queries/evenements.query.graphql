@@ -14,9 +14,7 @@ query evenements(
   ) {
     items {
       ... on Evenement {
-        id
-        title
-        description
+        ...evenement
       }
     }
     total

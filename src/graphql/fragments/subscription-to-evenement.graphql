@@ -1,0 +1,7 @@
+fragment subscriptionToEvenement on SubscriptionToEvenement {
+  id
+  createdAt
+  updatedAt
+  isInstructor
+  isValid
+}

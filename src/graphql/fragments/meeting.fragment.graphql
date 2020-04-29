@@ -1,5 +1,7 @@
 fragment meeting on Meeting {
   id
+  createdAt
+  updatedAt
   date
   jitsiMeetToken
   physicalAddress

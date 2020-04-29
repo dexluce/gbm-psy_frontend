@@ -1,24 +1,18 @@
 query evenement($id: String!) {
   evenement(evenementId: $id) {
-    id
-    title
-    description
+    ...evenement
     files {
-      id
-      name
-      description
-      src
-      isPublic
+      ...appFile
     }
     subscriptionsToEvenement {
-      id
-      isInstructor
-      isValid
+      ...subscriptionToEvenement
       user {
         id
         email
       }
     }
-    ...meetingsForEvenement
+    meetings {
+      ...meeting
+    }
   }
 }

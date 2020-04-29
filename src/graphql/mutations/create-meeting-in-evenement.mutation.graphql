@@ -8,6 +8,9 @@ mutation createMeetingInEvenement(
     date: $date,
     physicalAddress: $physicalAddress,
   }) {
-    id
+    ...meeting
+    evenement {
+      ...evenement
+    }
   }
 }

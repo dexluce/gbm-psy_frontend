@@ -7,7 +7,4 @@ fragment user on User {
   isActive
   lastname
   role
-  subscriptionsToEvenement {
-    id
-  }
 }

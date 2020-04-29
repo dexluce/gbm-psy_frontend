@@ -14,10 +14,7 @@ query users(
   ) {
     items {
     ...on User {
-      id
-      firstname
-      lastname
-      email
+      ...user
     }}
     total
   }

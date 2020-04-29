@@ -5,7 +5,10 @@ mutation Login (
   login(data: {email: $email, password: $password}) {
     token
     user {
-      ... user
+      ...user
+      subscriptionsToEvenement {
+        ...subscriptionToEvenement
+      }
     }
   }
 }

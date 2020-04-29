@@ -8,6 +8,6 @@ mutation CreateEvenement (
     description: $description,
     isValid: $isValid
   }) {
-    id
+    ...evenement
   }
 }

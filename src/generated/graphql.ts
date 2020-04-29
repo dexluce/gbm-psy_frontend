@@ -223,9 +223,19 @@ export type User = {
   subscriptionsToEvenement: Array<SubscriptionToEvenement>;
 };
 
+export type EvenementFragment = (
+  { __typename?: 'Evenement' }
+  & Pick<Evenement, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'description' | 'isValid'>
+);
+
+export type AppFileFragment = (
+  { __typename?: 'AppFile' }
+  & Pick<AppFile, 'id' | 'createdAt' | 'updatedAt' | 'name' | 'description' | 'src' | 'isPublic'>
+);
+
 export type MeetingFragment = (
   { __typename?: 'Meeting' }
-  & Pick<Meeting, 'id' | 'date' | 'jitsiMeetToken' | 'physicalAddress' | 'virtualAddress'>
+  & Pick<Meeting, 'id' | 'createdAt' | 'updatedAt' | 'date' | 'jitsiMeetToken' | 'physicalAddress' | 'virtualAddress'>
 );
 
 export type MeetingsForEvenementFragment = (
@@ -236,13 +246,14 @@ export type MeetingsForEvenementFragment = (
   )> }
 );
 
+export type SubscriptionToEvenementFragment = (
+  { __typename?: 'SubscriptionToEvenement' }
+  & Pick<SubscriptionToEvenement, 'id' | 'createdAt' | 'updatedAt' | 'isInstructor' | 'isValid'>
+);
+
 export type UserFragment = (
   { __typename?: 'User' }
   & Pick<User, 'id' | 'createdAt' | 'updatedAt' | 'email' | 'firstname' | 'isActive' | 'lastname' | 'role'>
-  & { subscriptionsToEvenement: Array<(
-    { __typename?: 'SubscriptionToEvenement' }
-    & Pick<SubscriptionToEvenement, 'id'>
-  )> }
 );
 
 export type CreateEvenementMutationVariables = {
@@ -256,7 +267,7 @@ export type CreateEvenementMutation = (
   { __typename?: 'Mutation' }
   & { createEvenement: (
     { __typename?: 'Evenement' }
-    & Pick<Evenement, 'id'>
+    & EvenementFragment
   ) }
 );
 
@@ -271,7 +282,11 @@ export type CreateMeetingInEvenementMutation = (
   { __typename?: 'Mutation' }
   & { createMeeting: (
     { __typename?: 'Meeting' }
-    & Pick<Meeting, 'id'>
+    & { evenement: (
+      { __typename?: 'Evenement' }
+      & EvenementFragment
+    ) }
+    & MeetingFragment
   ) }
 );
 
@@ -288,6 +303,10 @@ export type LoginMutation = (
     & Pick<Auth, 'token'>
     & { user: (
       { __typename?: 'User' }
+      & { subscriptionsToEvenement: Array<(
+        { __typename?: 'SubscriptionToEvenement' }
+        & SubscriptionToEvenementFragment
+      )> }
       & UserFragment
     ) }
   ) }
@@ -302,19 +321,21 @@ export type EvenementQuery = (
   { __typename?: 'Query' }
   & { evenement: (
     { __typename?: 'Evenement' }
-    & Pick<Evenement, 'id' | 'title' | 'description'>
     & { files: Array<(
       { __typename?: 'AppFile' }
-      & Pick<AppFile, 'id' | 'name' | 'description' | 'src' | 'isPublic'>
+      & AppFileFragment
     )>, subscriptionsToEvenement: Array<(
       { __typename?: 'SubscriptionToEvenement' }
-      & Pick<SubscriptionToEvenement, 'id' | 'isInstructor' | 'isValid'>
       & { user: (
         { __typename?: 'User' }
         & Pick<User, 'id' | 'email'>
       ) }
+      & SubscriptionToEvenementFragment
+    )>, meetings: Array<(
+      { __typename?: 'Meeting' }
+      & MeetingFragment
     )> }
-    & MeetingsForEvenementFragment
+    & EvenementFragment
   ) }
 );
 
@@ -334,7 +355,7 @@ export type EvenementsQuery = (
     & Pick<PaginatedList, 'total'>
     & { items: Array<{ __typename?: 'User' } | (
       { __typename?: 'Evenement' }
-      & Pick<Evenement, 'id' | 'title' | 'description'>
+      & EvenementFragment
     ) | { __typename?: 'Meeting' }> }
   ) }
 );
@@ -392,14 +413,37 @@ export type UsersQuery = (
     & Pick<PaginatedList, 'total'>
     & { items: Array<(
       { __typename?: 'User' }
-      & Pick<User, 'id' | 'firstname' | 'lastname' | 'email'>
+      & UserFragment
     ) | { __typename?: 'Evenement' } | { __typename?: 'Meeting' }> }
   ) }
 );
 
+export const EvenementFragmentDoc = gql`
+    fragment evenement on Evenement {
+  id
+  createdAt
+  updatedAt
+  title
+  description
+  isValid
+}
+    `;
+export const AppFileFragmentDoc = gql`
+    fragment appFile on AppFile {
+  id
+  createdAt
+  updatedAt
+  name
+  description
+  src
+  isPublic
+}
+    `;
 export const MeetingFragmentDoc = gql`
     fragment meeting on Meeting {
   id
+  createdAt
+  updatedAt
   date
   jitsiMeetToken
   physicalAddress
@@ -413,6 +457,15 @@ export const MeetingsForEvenementFragmentDoc = gql`
   }
 }
     ${MeetingFragmentDoc}`;
+export const SubscriptionToEvenementFragmentDoc = gql`
+    fragment subscriptionToEvenement on SubscriptionToEvenement {
+  id
+  createdAt
+  updatedAt
+  isInstructor
+  isValid
+}
+    `;
 export const UserFragmentDoc = gql`
     fragment user on User {
   id
@@ -423,18 +476,15 @@ export const UserFragmentDoc = gql`
   isActive
   lastname
   role
-  subscriptionsToEvenement {
-    id
-  }
 }
     `;
 export const CreateEvenementDocument = gql`
     mutation CreateEvenement($title: String!, $description: String, $isValid: Boolean) {
   createEvenement(data: {title: $title, description: $description, isValid: $isValid}) {
-    id
+    ...evenement
   }
 }
-    `;
+    ${EvenementFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -446,10 +496,14 @@ export const CreateEvenementDocument = gql`
 export const CreateMeetingInEvenementDocument = gql`
     mutation createMeetingInEvenement($evenementId: String!, $date: DateTime!, $physicalAddress: String) {
   createMeeting(data: {evenementId: $evenementId, date: $date, physicalAddress: $physicalAddress}) {
-    id
+    ...meeting
+    evenement {
+      ...evenement
+    }
   }
 }
-    `;
+    ${MeetingFragmentDoc}
+${EvenementFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -464,10 +518,14 @@ export const LoginDocument = gql`
     token
     user {
       ...user
+      subscriptionsToEvenement {
+        ...subscriptionToEvenement
+      }
     }
   }
 }
-    ${UserFragmentDoc}`;
+    ${UserFragmentDoc}
+${SubscriptionToEvenementFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -479,29 +537,26 @@ export const LoginDocument = gql`
 export const EvenementDocument = gql`
     query evenement($id: String!) {
   evenement(evenementId: $id) {
-    id
-    title
-    description
+    ...evenement
     files {
-      id
-      name
-      description
-      src
-      isPublic
+      ...appFile
     }
     subscriptionsToEvenement {
-      id
-      isInstructor
-      isValid
+      ...subscriptionToEvenement
       user {
         id
         email
       }
     }
-    ...meetingsForEvenement
+    meetings {
+      ...meeting
+    }
   }
 }
-    ${MeetingsForEvenementFragmentDoc}`;
+    ${EvenementFragmentDoc}
+${AppFileFragmentDoc}
+${SubscriptionToEvenementFragmentDoc}
+${MeetingFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -515,15 +570,13 @@ export const EvenementsDocument = gql`
   evenements(orderDirection: $orderDirection, orderBy: $orderBy, filter: $filter, pageNumber: $pageNumber, pageSize: $pageSize) {
     items {
       ... on Evenement {
-        id
-        title
-        description
+        ...evenement
       }
     }
     total
   }
 }
-    `;
+    ${EvenementFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -582,16 +635,13 @@ export const UsersDocument = gql`
   users(orderDirection: $orderDirection, orderBy: $orderBy, filter: $filter, pageNumber: $pageNumber, pageSize: $pageSize) {
     items {
       ... on User {
-        id
-        firstname
-        lastname
-        email
+        ...user
       }
     }
     total
   }
 }
-    `;
+    ${UserFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
