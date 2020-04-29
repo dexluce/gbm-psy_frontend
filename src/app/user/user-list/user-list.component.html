@@ -3,4 +3,17 @@
   [dataSource]="datasource"
   [displayedColumns]="displayedColumns"
 >
+  <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+    <ng-container *ngIf="column === 'actions'; then actionsCol else normalCol"></ng-container>
+
+    <ng-template #actionsCol>
+      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+      <mat-cell *matCellDef="let item">{{item}}</mat-cell>
+    </ng-template>
+
+    <ng-template #normalCol>
+      <mat-header-cell *matHeaderCellDef>{{columnToReadable(column)}}</mat-header-cell>
+      <mat-cell *matCellDef="let item">{{item[column]}}</mat-cell>
+    </ng-template>
+  </ng-container>
 </app-datatable>

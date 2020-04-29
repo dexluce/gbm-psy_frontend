@@ -8,7 +8,7 @@ import { PaginatedDatasource } from 'src/app/core/app-datatable/paginated-dataso
   styleUrls: ['./event-list.component.scss']
 })
 export class EventListComponent {
-  displayedColumns = ['title', 'description'];
+  displayedColumns = ['title', 'actions'];
   datasource: PaginatedDatasource<Evenement>;
 
   constructor(public evenementsGql: EvenementsGQL) {

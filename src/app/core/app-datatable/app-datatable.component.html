@@ -12,11 +12,9 @@
     </button>
   </mat-toolbar-row>
 
-  <mat-table [dataSource]="dataSource" matSort matSortDirection="asc" matSortDisableClear>
-    <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>{{column}}</mat-header-cell>
-      <mat-cell *matCellDef="let item">{{item[column]}}</mat-cell>
-    </ng-container>
+  <mat-table [dataSource]="dataSource">
+    <ng-content>     
+    </ng-content>
     
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     

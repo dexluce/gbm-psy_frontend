@@ -1,26 +1,38 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ViewChild,
+  ElementRef,
+  Output,
+  EventEmitter,
+  AfterContentInit,
+  ContentChildren,
+  QueryList,
+  AfterViewInit,
+  OnDestroy} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { merge } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PaginatedDatasource } from './paginated-datasource';
 import { PaginableRessource } from 'src/generated/graphql';
+import { MatColumnDef, MatTable } from '@angular/material/table';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-datatable',
   templateUrl: './app-datatable.component.html',
   styleUrls: ['./app-datatable.component.scss'],
 })
-export class AppDatatableComponent implements OnInit, AfterViewInit {
-  @Input() dataSource: PaginatedDatasource<PaginableRessource>;
+export class AppDatatableComponent implements OnInit, AfterContentInit, AfterViewInit, OnDestroy {
+  @Input() dataSource: PaginatedDatasource<PaginableRessource[]>;
   @Input() displayedColumns: string[] = [];
 
   @Output() createClicked = new EventEmitter<MouseEvent>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
   @ViewChild('input') filter: ElementRef;
+  @ViewChild(MatTable, { static: true }) table: MatTable<PaginableRessource[]>;
+  @ContentChildren(MatColumnDef) columnDefs: QueryList<MatColumnDef>;
 
   constructor(
     private router: Router,
@@ -38,20 +50,22 @@ export class AppDatatableComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // reset the paginator after sorting
-    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-    merge(this.sort.sortChange, this.paginator.page)
-    .pipe(
+    this.paginator.page.pipe(
       tap(() => this.loadData())
-    )
-    .subscribe();
+    ).subscribe();
+  }
+
+  ngAfterContentInit() {
+    this.columnDefs.forEach(columnDef => this.table.addColumnDef(columnDef));
+  }
+
+  ngOnDestroy() {
+    this.paginator.page.unsubscribe();
   }
 
   loadData() {
     this.dataSource.load({
       filter: this.filter.nativeElement.value,
-      orderBy: this.sort.active,
-      orderDirection: this.sort.direction === 'asc' ? 'ASC' : 'DESC',
       pageNumber: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize,
     });

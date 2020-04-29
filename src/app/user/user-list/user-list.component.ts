@@ -8,10 +8,26 @@ import { PaginatedDatasource } from 'src/app/core/app-datatable/paginated-dataso
   styleUrls: ['./user-list.component.scss'],
 })
 export class UserListComponent {
-  displayedColumns = ['firstname', 'lastname', 'email'];
+  displayedColumns = ['firstname', 'lastname', 'email', 'actions'];
   datasource: PaginatedDatasource<User>;
 
   constructor(public usersQql: UsersGQL) {
     this.datasource = new PaginatedDatasource<User>(usersQql);
+  }
+
+  columnToReadable(column: string) {
+    switch (column) {
+      case 'firstname':
+        return 'Prénom';
+
+      case 'lastname':
+        return 'nom';
+
+      case 'email':
+        return 'couriel';
+
+      default:
+        return '-';
+    }
   }
 }
