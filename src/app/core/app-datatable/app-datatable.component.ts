@@ -4,6 +4,8 @@ import { MatSort } from '@angular/material/sort';
 import { merge } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
+import { PaginatedDatasource } from './paginated-datasource';
+import { PaginableRessource } from 'src/generated/graphql';
 
 @Component({
   selector: 'app-datatable',
@@ -11,7 +13,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./app-datatable.component.scss'],
 })
 export class AppDatatableComponent implements OnInit, AfterViewInit {
-  @Input() dataSource;
+  @Input() dataSource: PaginatedDatasource<PaginableRessource>;
   @Input() displayedColumns: string[] = [];
 
   @Output() createClicked = new EventEmitter<MouseEvent>();
