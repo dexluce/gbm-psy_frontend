@@ -44,10 +44,11 @@ export class CreateEvenementComponent implements OnInit {
         isPublic: this.form.get('isPublic').value
       }).pipe(
         take(1),
-        tap(() => this.router.navigate(['events'])),
-        catchError(e => this.formInvalid = 'Erreur lors de la creation'),
-        finalize(() => this.formSubmitAttempt = false)
-      ).subscribe();
+      ).subscribe(({ data, errors }) => {
+        this.formSubmitAttempt = false;
+        if (data) { this.router.navigate(['events']); }
+        if (errors) { this.formInvalid = errors.map(e => e.message).toString(); }
+      });
     }
   }
 }
