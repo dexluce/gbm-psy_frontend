@@ -1,5 +1,5 @@
 query meetingsInEvenement ($evenementId: String!) {
-  meetingsForEvenement(evenementId: $evenementId) {
+  meetingsInEvenement(evenementId: $evenementId) {
     ...meeting
   }
 }

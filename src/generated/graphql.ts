@@ -151,7 +151,7 @@ export type Query = {
   evenement: Evenement;
   evenements: PaginatedList;
   meeting: Meeting;
-  meetingsForEvenement: Array<Meeting>;
+  meetingsInEvenement: Array<Meeting>;
 };
 
 
@@ -183,7 +183,7 @@ export type QueryMeetingArgs = {
 };
 
 
-export type QueryMeetingsForEvenementArgs = {
+export type QueryMeetingsInEvenementArgs = {
   evenementId: Scalars['String'];
 };
 
@@ -236,14 +236,6 @@ export type AppFileFragment = (
 export type MeetingFragment = (
   { __typename?: 'Meeting' }
   & Pick<Meeting, 'id' | 'createdAt' | 'updatedAt' | 'date' | 'jitsiMeetToken' | 'physicalAddress' | 'virtualAddress'>
-);
-
-export type MeetingsForEvenementFragment = (
-  { __typename?: 'Evenement' }
-  & { meetings: Array<(
-    { __typename?: 'Meeting' }
-    & MeetingFragment
-  )> }
 );
 
 export type SubscriptionToEvenementFragment = (
@@ -391,7 +383,7 @@ export type MeetingsInEvenementQueryVariables = {
 
 export type MeetingsInEvenementQuery = (
   { __typename?: 'Query' }
-  & { meetingsForEvenement: Array<(
+  & { meetingsInEvenement: Array<(
     { __typename?: 'Meeting' }
     & MeetingFragment
   )> }
@@ -450,13 +442,6 @@ export const MeetingFragmentDoc = gql`
   virtualAddress
 }
     `;
-export const MeetingsForEvenementFragmentDoc = gql`
-    fragment meetingsForEvenement on Evenement {
-  meetings {
-    ...meeting
-  }
-}
-    ${MeetingFragmentDoc}`;
 export const SubscriptionToEvenementFragmentDoc = gql`
     fragment subscriptionToEvenement on SubscriptionToEvenement {
   id
@@ -617,7 +602,7 @@ export const MeetingDocument = gql`
   }
 export const MeetingsInEvenementDocument = gql`
     query meetingsInEvenement($evenementId: String!) {
-  meetingsForEvenement(evenementId: $evenementId) {
+  meetingsInEvenement(evenementId: $evenementId) {
     ...meeting
   }
 }

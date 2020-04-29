@@ -16,7 +16,7 @@ export class MeetingsInEvenementComponent implements OnInit {
 
   ngOnInit(): void {
     this.meetingsInEvenement.fetch({ evenementId: this.evenementId }).pipe(take(1)).subscribe(
-      res => this.meetings = res.data.meetingsForEvenement,
+      res => this.meetings = res.data.meetingsInEvenement,
       err => this.error = err,
     );
   }
