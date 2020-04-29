@@ -223,22 +223,26 @@ export type User = {
   subscriptionsToEvenement: Array<SubscriptionToEvenement>;
 };
 
-export type LoginMutationVariables = {
-  email: Scalars['String'];
-  password: Scalars['String'];
-};
+export type MeetingFragment = (
+  { __typename?: 'Meeting' }
+  & Pick<Meeting, 'id' | 'date' | 'jitsiMeetToken' | 'physicalAddress' | 'virtualAddress'>
+);
 
+export type MeetingsForEvenementFragment = (
+  { __typename?: 'Evenement' }
+  & { meetings: Array<(
+    { __typename?: 'Meeting' }
+    & MeetingFragment
+  )> }
+);
 
-export type LoginMutation = (
-  { __typename?: 'Mutation' }
-  & { login: (
-    { __typename?: 'Auth' }
-    & Pick<Auth, 'token'>
-    & { user: (
-      { __typename?: 'User' }
-      & UserFragment
-    ) }
-  ) }
+export type UserFragment = (
+  { __typename?: 'User' }
+  & Pick<User, 'id' | 'createdAt' | 'updatedAt' | 'email' | 'firstname' | 'isActive' | 'lastname' | 'role'>
+  & { subscriptionsToEvenement: Array<(
+    { __typename?: 'SubscriptionToEvenement' }
+    & Pick<SubscriptionToEvenement, 'id'>
+  )> }
 );
 
 export type CreateEvenementMutationVariables = {
@@ -256,24 +260,36 @@ export type CreateEvenementMutation = (
   ) }
 );
 
-export type EvenementsQueryVariables = {
-  orderDirection?: Maybe<OrderDirection>;
-  orderBy?: Maybe<Scalars['String']>;
-  filter?: Maybe<Scalars['String']>;
-  pageNumber?: Maybe<Scalars['Int']>;
-  pageSize?: Maybe<Scalars['Int']>;
+export type CreateMeetingInEvenementMutationVariables = {
+  evenementId: Scalars['String'];
+  date: Scalars['DateTime'];
+  physicalAddress?: Maybe<Scalars['String']>;
 };
 
 
-export type EvenementsQuery = (
-  { __typename?: 'Query' }
-  & { evenements: (
-    { __typename?: 'PaginatedList' }
-    & Pick<PaginatedList, 'total'>
-    & { items: Array<{ __typename?: 'User' } | (
-      { __typename?: 'Evenement' }
-      & Pick<Evenement, 'id' | 'title' | 'description'>
-    ) | { __typename?: 'Meeting' }> }
+export type CreateMeetingInEvenementMutation = (
+  { __typename?: 'Mutation' }
+  & { createMeeting: (
+    { __typename?: 'Meeting' }
+    & Pick<Meeting, 'id'>
+  ) }
+);
+
+export type LoginMutationVariables = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
+
+export type LoginMutation = (
+  { __typename?: 'Mutation' }
+  & { login: (
+    { __typename?: 'Auth' }
+    & Pick<Auth, 'token'>
+    & { user: (
+      { __typename?: 'User' }
+      & UserFragment
+    ) }
   ) }
 );
 
@@ -302,40 +318,35 @@ export type EvenementQuery = (
   ) }
 );
 
-export type MeetingFragment = (
-  { __typename?: 'Meeting' }
-  & Pick<Meeting, 'id' | 'date' | 'jitsiMeetToken' | 'physicalAddress' | 'virtualAddress'>
-);
-
-export type MeetingsForEvenementFragment = (
-  { __typename?: 'Evenement' }
-  & { meetings: Array<(
-    { __typename?: 'Meeting' }
-    & MeetingFragment
-  )> }
-);
-
-export type UserFragment = (
-  { __typename?: 'User' }
-  & Pick<User, 'id' | 'createdAt' | 'updatedAt' | 'email' | 'firstname' | 'isActive' | 'lastname' | 'role'>
-  & { subscriptionsToEvenement: Array<(
-    { __typename?: 'SubscriptionToEvenement' }
-    & Pick<SubscriptionToEvenement, 'id'>
-  )> }
-);
-
-export type CreateMeetingInEvenementMutationVariables = {
-  evenementId: Scalars['String'];
-  date: Scalars['DateTime'];
-  physicalAddress?: Maybe<Scalars['String']>;
+export type EvenementsQueryVariables = {
+  orderDirection?: Maybe<OrderDirection>;
+  orderBy?: Maybe<Scalars['String']>;
+  filter?: Maybe<Scalars['String']>;
+  pageNumber?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
 };
 
 
-export type CreateMeetingInEvenementMutation = (
-  { __typename?: 'Mutation' }
-  & { createMeeting: (
-    { __typename?: 'Meeting' }
-    & Pick<Meeting, 'id'>
+export type EvenementsQuery = (
+  { __typename?: 'Query' }
+  & { evenements: (
+    { __typename?: 'PaginatedList' }
+    & Pick<PaginatedList, 'total'>
+    & { items: Array<{ __typename?: 'User' } | (
+      { __typename?: 'Evenement' }
+      & Pick<Evenement, 'id' | 'title' | 'description'>
+    ) | { __typename?: 'Meeting' }> }
+  ) }
+);
+
+export type MeQueryVariables = {};
+
+
+export type MeQuery = (
+  { __typename?: 'Query' }
+  & { me: (
+    { __typename?: 'User' }
+    & UserFragment
   ) }
 );
 
@@ -363,17 +374,6 @@ export type MeetingsInEvenementQuery = (
     { __typename?: 'Meeting' }
     & MeetingFragment
   )> }
-);
-
-export type MeQueryVariables = {};
-
-
-export type MeQuery = (
-  { __typename?: 'Query' }
-  & { me: (
-    { __typename?: 'User' }
-    & UserFragment
-  ) }
 );
 
 export type UsersQueryVariables = {
@@ -428,6 +428,36 @@ export const UserFragmentDoc = gql`
   }
 }
     `;
+export const CreateEvenementDocument = gql`
+    mutation CreateEvenement($title: String!, $description: String, $isValid: Boolean) {
+  createEvenement(data: {title: $title, description: $description, isValid: $isValid}) {
+    id
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateEvenementGQL extends Apollo.Mutation<CreateEvenementMutation, CreateEvenementMutationVariables> {
+    document = CreateEvenementDocument;
+    
+  }
+export const CreateMeetingInEvenementDocument = gql`
+    mutation createMeetingInEvenement($evenementId: String!, $date: DateTime!, $physicalAddress: String) {
+  createMeeting(data: {evenementId: $evenementId, date: $date, physicalAddress: $physicalAddress}) {
+    id
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateMeetingInEvenementGQL extends Apollo.Mutation<CreateMeetingInEvenementMutation, CreateMeetingInEvenementMutationVariables> {
+    document = CreateMeetingInEvenementDocument;
+    
+  }
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(data: {email: $email, password: $password}) {
@@ -444,43 +474,6 @@ export const LoginDocument = gql`
   })
   export class LoginGQL extends Apollo.Mutation<LoginMutation, LoginMutationVariables> {
     document = LoginDocument;
-    
-  }
-export const CreateEvenementDocument = gql`
-    mutation CreateEvenement($title: String!, $description: String, $isValid: Boolean) {
-  createEvenement(data: {title: $title, description: $description, isValid: $isValid}) {
-    id
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class CreateEvenementGQL extends Apollo.Mutation<CreateEvenementMutation, CreateEvenementMutationVariables> {
-    document = CreateEvenementDocument;
-    
-  }
-export const EvenementsDocument = gql`
-    query evenements($orderDirection: OrderDirection, $orderBy: String, $filter: String, $pageNumber: Int, $pageSize: Int) {
-  evenements(orderDirection: $orderDirection, orderBy: $orderBy, filter: $filter, pageNumber: $pageNumber, pageSize: $pageSize) {
-    items {
-      ... on Evenement {
-        id
-        title
-        description
-      }
-    }
-    total
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class EvenementsGQL extends Apollo.Query<EvenementsQuery, EvenementsQueryVariables> {
-    document = EvenementsDocument;
     
   }
 export const EvenementDocument = gql`
@@ -517,10 +510,17 @@ export const EvenementDocument = gql`
     document = EvenementDocument;
     
   }
-export const CreateMeetingInEvenementDocument = gql`
-    mutation createMeetingInEvenement($evenementId: String!, $date: DateTime!, $physicalAddress: String) {
-  createMeeting(data: {evenementId: $evenementId, date: $date, physicalAddress: $physicalAddress}) {
-    id
+export const EvenementsDocument = gql`
+    query evenements($orderDirection: OrderDirection, $orderBy: String, $filter: String, $pageNumber: Int, $pageSize: Int) {
+  evenements(orderDirection: $orderDirection, orderBy: $orderBy, filter: $filter, pageNumber: $pageNumber, pageSize: $pageSize) {
+    items {
+      ... on Evenement {
+        id
+        title
+        description
+      }
+    }
+    total
   }
 }
     `;
@@ -528,8 +528,23 @@ export const CreateMeetingInEvenementDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class CreateMeetingInEvenementGQL extends Apollo.Mutation<CreateMeetingInEvenementMutation, CreateMeetingInEvenementMutationVariables> {
-    document = CreateMeetingInEvenementDocument;
+  export class EvenementsGQL extends Apollo.Query<EvenementsQuery, EvenementsQueryVariables> {
+    document = EvenementsDocument;
+    
+  }
+export const MeDocument = gql`
+    query Me {
+  me {
+    ...user
+  }
+}
+    ${UserFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MeGQL extends Apollo.Query<MeQuery, MeQueryVariables> {
+    document = MeDocument;
     
   }
 export const MeetingDocument = gql`
@@ -560,21 +575,6 @@ export const MeetingsInEvenementDocument = gql`
   })
   export class MeetingsInEvenementGQL extends Apollo.Query<MeetingsInEvenementQuery, MeetingsInEvenementQueryVariables> {
     document = MeetingsInEvenementDocument;
-    
-  }
-export const MeDocument = gql`
-    query Me {
-  me {
-    ...user
-  }
-}
-    ${UserFragmentDoc}`;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MeGQL extends Apollo.Query<MeQuery, MeQueryVariables> {
-    document = MeDocument;
     
   }
 export const UsersDocument = gql`
