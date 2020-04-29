@@ -365,6 +365,17 @@ export type MeetingsInEvenementQuery = (
   )> }
 );
 
+export type MeQueryVariables = {};
+
+
+export type MeQuery = (
+  { __typename?: 'Query' }
+  & { me: (
+    { __typename?: 'User' }
+    & UserFragment
+  ) }
+);
+
 export type UsersQueryVariables = {
   orderDirection?: Maybe<OrderDirection>;
   orderBy?: Maybe<Scalars['String']>;
@@ -549,6 +560,21 @@ export const MeetingsInEvenementDocument = gql`
   })
   export class MeetingsInEvenementGQL extends Apollo.Query<MeetingsInEvenementQuery, MeetingsInEvenementQueryVariables> {
     document = MeetingsInEvenementDocument;
+    
+  }
+export const MeDocument = gql`
+    query Me {
+  me {
+    ...user
+  }
+}
+    ${UserFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MeGQL extends Apollo.Query<MeQuery, MeQueryVariables> {
+    document = MeDocument;
     
   }
 export const UsersDocument = gql`
