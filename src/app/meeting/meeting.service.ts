@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Meeting } from 'src/generated/graphql';
+import { MeetingFragment } from 'src/generated/graphql';
 import { environment } from 'src/environments/environment';
 
 declare var JitsiMeetExternalAPI: any;
@@ -11,7 +11,7 @@ export class MeetingService {
 
   constructor() { }
 
-  getJitsiClient(meeting: Meeting, el: HTMLElement) {
+  getJitsiClient(meeting: MeetingFragment, el: HTMLElement) {
     return new JitsiMeetExternalAPI(environment.jitsiMeetApiUrl, {
       roomName: meeting.virtualAddress,
       jwt: meeting.jitsiMeetToken,

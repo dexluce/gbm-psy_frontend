@@ -1,9 +1,8 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, OnDestroy } from '@angular/core';
-import { MeetingGQL, Meeting, MeetingQuery } from 'src/generated/graphql';
+import { MeetingGQL, MeetingFragment } from 'src/generated/graphql';
 import { take, tap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MeetingService } from '../meeting.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-meeting',
@@ -11,7 +10,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./meeting.component.scss']
 })
 export class MeetingComponent implements OnInit, OnDestroy {
-  meeting: Meeting;
+  meeting: MeetingFragment;
   error: '';
   jitsiClient;
   @Input() meetingId: string;
@@ -30,7 +29,7 @@ export class MeetingComponent implements OnInit, OnDestroy {
       tap((params) => {
         this.meetingGqlService.fetch({ id: params.get('id') }).pipe(take(1)).subscribe(
           res => {
-            this.meeting = res.data.meeting as Meeting;
+            this.meeting = res.data.meeting;
             // Now that we have a meeting, we can initiate jitsi meet
             this.initializeMeeting();
           },
