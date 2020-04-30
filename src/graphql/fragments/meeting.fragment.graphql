@@ -6,4 +6,7 @@ fragment meeting on Meeting {
   jitsiMeetToken
   physicalAddress
   virtualAddress
+  evenement {
+    id
+  }
 }

@@ -47,7 +47,7 @@ export class MeetingComponent implements OnInit, OnDestroy {
   private initializeMeeting() {
     this.jitsiClient = this.meetingService.getJitsiClient(this.meeting, this.meet.nativeElement);
     this.jitsiClient.addEventListener('videoConferenceLeft', (obj) => {
-      this.router.navigate(['/']);
+      this.router.navigate(['/admin/events/' + this.meeting.evenement.id]);
     });
   }
 }

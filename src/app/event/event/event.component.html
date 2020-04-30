@@ -1,4 +1,3 @@
-
 <mat-card *ngIf="error">
   {{error}}
 </mat-card>
@@ -30,8 +29,12 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <app-meetings-in-evenement [evenementId]="evenement.id">
-        </app-meetings-in-evenement>
+        <app-meeting-tile *ngFor="let meeting of evenement.meetings" [meetingId]="meeting.id">
+        </app-meeting-tile>
+
+        <app-create-meeting-tile *appIfHasRole="[appRoles.Admin, appRoles.Formator]" [evenementId]="evenement.id">
+        </app-create-meeting-tile>
+
       </mat-expansion-panel>
     </mat-accordion>
   </mat-card-content>

@@ -11,5 +11,8 @@ query evenement($id: String!) {
         email
       }
     }
+    meetings {
+      id
+    }
   }
 }

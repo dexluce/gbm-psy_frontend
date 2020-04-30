@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { EventComponent } from './event/event.component';
 import { MeetingModule } from '../meeting/meeting.module';
+import { AuthModule } from '../auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { MeetingModule } from '../meeting/meeting.module';
     FormsModule,
     ReactiveFormsModule,
     MeetingModule,
+    AuthModule
   ],
   providers: [
   ],

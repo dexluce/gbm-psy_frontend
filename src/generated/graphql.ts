@@ -100,6 +100,7 @@ export type Mutation = {
   changePassword: User;
   createEvenement: Evenement;
   createMeeting: Meeting;
+  refreshVirtualRoom: Meeting;
   login: Auth;
 };
 
@@ -126,6 +127,11 @@ export type MutationCreateEvenementArgs = {
 
 export type MutationCreateMeetingArgs = {
   data: CreateMeetingInput;
+};
+
+
+export type MutationRefreshVirtualRoomArgs = {
+  meetingId: Scalars['String'];
 };
 
 
@@ -239,6 +245,10 @@ export type AppFileFragment = (
 export type MeetingFragment = (
   { __typename?: 'Meeting' }
   & Pick<Meeting, 'id' | 'createdAt' | 'updatedAt' | 'date' | 'jitsiMeetToken' | 'physicalAddress' | 'virtualAddress'>
+  & { evenement: (
+    { __typename?: 'Evenement' }
+    & Pick<Evenement, 'id'>
+  ) }
 );
 
 export type SubscriptionToEvenementFragment = (
@@ -308,6 +318,19 @@ export type LoginMutation = (
   ) }
 );
 
+export type RefreshVirtualRoomMutationVariables = {
+  meetingId: Scalars['String'];
+};
+
+
+export type RefreshVirtualRoomMutation = (
+  { __typename?: 'Mutation' }
+  & { refreshVirtualRoom: (
+    { __typename?: 'Meeting' }
+    & MeetingFragment
+  ) }
+);
+
 export type EvenementQueryVariables = {
   id: Scalars['String'];
 };
@@ -329,7 +352,7 @@ export type EvenementQuery = (
       & SubscriptionToEvenementFragment
     )>, meetings: Array<(
       { __typename?: 'Meeting' }
-      & MeetingFragment
+      & Pick<Meeting, 'id'>
     )> }
     & EvenementFragment
   ) }
@@ -445,6 +468,9 @@ export const MeetingFragmentDoc = gql`
   jitsiMeetToken
   physicalAddress
   virtualAddress
+  evenement {
+    id
+  }
 }
     `;
 export const SubscriptionToEvenementFragmentDoc = gql`
@@ -525,6 +551,21 @@ ${SubscriptionToEvenementFragmentDoc}`;
     document = LoginDocument;
     
   }
+export const RefreshVirtualRoomDocument = gql`
+    mutation RefreshVirtualRoom($meetingId: String!) {
+  refreshVirtualRoom(meetingId: $meetingId) {
+    ...meeting
+  }
+}
+    ${MeetingFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RefreshVirtualRoomGQL extends Apollo.Mutation<RefreshVirtualRoomMutation, RefreshVirtualRoomMutationVariables> {
+    document = RefreshVirtualRoomDocument;
+    
+  }
 export const EvenementDocument = gql`
     query evenement($id: String!) {
   evenement(evenementId: $id) {
@@ -540,14 +581,13 @@ export const EvenementDocument = gql`
       }
     }
     meetings {
-      ...meeting
+      id
     }
   }
 }
     ${EvenementFragmentDoc}
 ${AppFileFragmentDoc}
-${SubscriptionToEvenementFragmentDoc}
-${MeetingFragmentDoc}`;
+${SubscriptionToEvenementFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { EvenementGQL } from 'src/generated/graphql';
+import { EvenementGQL, Role } from 'src/generated/graphql';
 import { take, tap } from 'rxjs/operators';
 
 @Component({
@@ -12,7 +12,7 @@ export class EventComponent implements OnInit {
   evenement;
   error = '';
   initialPanel = '';
-
+  appRoles = Role;
   constructor(
     private route: ActivatedRoute,
     private evenementGql: EvenementGQL
