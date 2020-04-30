@@ -6,17 +6,23 @@ import { CreateMeetingTileComponent } from './create-meeting-tile/create-meeting
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MeetingComponent } from './meeting/meeting.component';
 import { RouterModule } from '@angular/router';
+import { AuthModule } from '../auth/auth.module';
 
 declare var JitsiMeetExternalAPI: any;
 
 @NgModule({
-  declarations: [MeetingsInEvenementComponent, CreateMeetingTileComponent, MeetingComponent],
+  declarations: [
+    MeetingsInEvenementComponent,
+    CreateMeetingTileComponent,
+    MeetingComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
     RouterModule,
+    AuthModule,
   ],
   exports: [
     MeetingsInEvenementComponent,

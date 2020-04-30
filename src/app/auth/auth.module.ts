@@ -6,9 +6,13 @@ import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { LoginComponent } from './login/login.component';
 import { MaterialModule } from '../material.module';
+import { IfHasRoleDirective } from './if-has-role.directive';
 
 @NgModule({
-  declarations: [LoginComponent],
+  declarations: [
+    LoginComponent,
+    IfHasRoleDirective,
+  ],
   providers: [
     AuthGuard,
     AuthService,
@@ -18,6 +22,9 @@ import { MaterialModule } from '../material.module';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
+  ],
+  exports: [
+    IfHasRoleDirective,
   ]
 })
 export class AuthModule { }

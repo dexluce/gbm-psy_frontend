@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MeetingsInEvenementGQL } from 'src/generated/graphql';
+import { MeetingsInEvenementGQL, Role } from 'src/generated/graphql';
 import { take } from 'rxjs/operators';
 
 @Component({
@@ -8,6 +8,7 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./meetings-in-evenement.component.scss']
 })
 export class MeetingsInEvenementComponent implements OnInit {
+  appRoles = Role;
   meetings;
   error = '';
   @Input() evenementId: string;
@@ -20,5 +21,4 @@ export class MeetingsInEvenementComponent implements OnInit {
       err => this.error = err,
     );
   }
-
 }
