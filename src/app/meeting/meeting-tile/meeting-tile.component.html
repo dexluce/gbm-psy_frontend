@@ -23,7 +23,7 @@
     <mat-card>
       <mat-card-header>
         <mat-card-title>
-          <mat-icon>video_call</mat-icon>
+          <mat-icon>featured_video</mat-icon>
           Salle virtuelle
         </mat-card-title>
       </mat-card-header>
@@ -31,7 +31,6 @@
         <ng-container *ngIf="meeting.jitsiMeetToken; else noMeetingForNow">
           <a mat-button color="primary" [routerLink]="['/admin/meeting', meeting.id]">
             Rejoindre la salle virtuelle
-            <mat-icon>featured_video</mat-icon>
           </a>
         </ng-container>
         <ng-template #noMeetingForNow>
@@ -44,7 +43,7 @@
       <mat-card-header>
         <mat-card-title>
           <mat-icon>security</mat-icon>
-          actions d'administration
+          Administration
         </mat-card-title>
       </mat-card-header>
       <mat-card-content>
