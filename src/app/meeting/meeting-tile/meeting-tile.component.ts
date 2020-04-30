@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { MeetingGQL, MeetingQuery, RefreshVirtualRoomGQL, MeetingQueryVariables, Role, MeetingFragment } from 'src/generated/graphql';
-import { take } from 'rxjs/operators';
+import { take, map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -20,9 +20,9 @@ export class MeetingTileComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.subscription = this.meetingGql.watch({ id: this.meetingId }).valueChanges.subscribe((response) => {
-      this.meeting = response.data.meeting;
-    });
+    this.subscription = this.meetingGql.watch({ id: this.meetingId }).valueChanges.pipe(
+      map(({ data: { meeting } }) => meeting)
+    ).subscribe(meeting => this.meeting = meeting);
   }
 
   ngOnDestroy(): void {
