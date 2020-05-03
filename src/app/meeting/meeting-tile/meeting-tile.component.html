@@ -51,7 +51,7 @@
           <p>
             <ng-container *ngIf="meeting.virtualAddress; else createVirtualAddress">
               Une salle virtuelle est déjà disponible.
-              <a mat-raised-button (click)="refreshVirtualRoom()">
+              <a mat-raised-button color="accent" (click)="refreshVirtualRoom()">
                 la recréer?
               </a>
             </ng-container>
