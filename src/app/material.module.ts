@@ -21,6 +21,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   imports: [
@@ -45,6 +46,7 @@ import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/go
     MatDatepickerModule,
     MatNativeDateModule,
     MatGoogleMapsAutocompleteModule,
+    MatRadioModule,
   ],
   exports: [
     MatButtonModule,
@@ -68,6 +70,7 @@ import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/go
     MatDatepickerModule,
     MatNativeDateModule,
     MatGoogleMapsAutocompleteModule,
+    MatRadioModule,
   ]
 })
 export class MaterialModule { }
