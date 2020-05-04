@@ -1,6 +1,7 @@
 import { Directive, OnInit, OnDestroy, Input, ViewContainerRef, TemplateRef } from '@angular/core';
 import { MeGQL, Role } from 'src/generated/graphql';
 import { Subscription } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Directive({
   selector: '[appIfHasRole]',
@@ -18,23 +19,32 @@ export class IfHasRoleDirective implements OnInit, OnDestroy {
   constructor(
     private viewContainerRef: ViewContainerRef,
     private templateRef: TemplateRef<any>,
-    private meGql: MeGQL
+    private meGql: MeGQL,
+    private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
-    this.subscriptionToUserConnected = this.meGql.watch().valueChanges.subscribe(
-      (result) => this.testRoles(result.data.me.role)
-    );
+    if (this.authService.isAuthenticated()) {
+      this.subscriptionToUserConnected = this.meGql.watch().valueChanges.subscribe(
+        (result) => {
+          this.testRoles(result.data.me.role);
+        }
+      );
+    } else {
+      this.testRoles();
+    } 
   }
 
   ngOnDestroy(): void {
     this.subscriptionToUserConnected.unsubscribe();
   }
 
-  private testRoles(userRole: Role) {
+  private testRoles(userRole?: Role) {
     // If he doesn't have any roles, we clear the viewContainerRef
     if (!userRole) {
+      this.isVisible = false;
       this.viewContainerRef.clear();
+      return;
     }
     // If the user has the role needed to render this component we can add it
     if (this.mustHaveRoles.includes(userRole)) {
