@@ -12,12 +12,12 @@ export class AuthService {
 
   private storeAccessToken(token: string) {
     // tslint:disable-next-line: no-string-literal
-    window.localStorage.setItem('accessToken', token);
+    window.sessionStorage.setItem('accessToken', token);
   }
 
   public retrieveAccessToken(): string {
     // tslint:disable-next-line: no-string-literal
-    return window.localStorage.getItem('accessToken');
+    return window.sessionStorage.getItem('accessToken');
   }
 
   public isAuthenticated(): boolean {
@@ -25,7 +25,7 @@ export class AuthService {
   }
 
   public removeAccessToken() {
-    window.localStorage.removeItem('accessToken');
+    window.sessionStorage.removeItem('accessToken');
   }
 
   public async login(credentials: LoginMutationVariables): Promise<User> {
