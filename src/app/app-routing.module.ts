@@ -7,9 +7,14 @@ import { EventListComponent } from './event/event-list/event-list.component';
 import { CreateEvenementComponent } from './event/create-evenement/create-evenement.component';
 import { EventComponent } from './event/event/event.component';
 import { MeetingComponent } from './meeting/meeting/meeting.component';
+import { LogoutComponent } from './auth/logout/logout.component';
 
 
 const routes: Routes = [
+  {
+    path: 'logout',
+    component: LogoutComponent,
+  },
   {
     path: 'login',
     component: LoginComponent

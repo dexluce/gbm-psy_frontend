@@ -12,16 +12,20 @@ export class AuthService {
 
   private storeAccessToken(token: string) {
     // tslint:disable-next-line: no-string-literal
-    window.localStorage['accessToken'] = token;
+    window.localStorage.setItem('accessToken', token);
   }
 
   public retrieveAccessToken(): string {
     // tslint:disable-next-line: no-string-literal
-    return window.localStorage['accessToken'];
+    return window.localStorage.getItem('accessToken');
   }
 
   public isAuthenticated(): boolean {
     return this.retrieveAccessToken() ? true : false;
+  }
+
+  public removeAccessToken() {
+    window.localStorage.removeItem('accessToken');
   }
 
   public async login(credentials: LoginMutationVariables): Promise<User> {
