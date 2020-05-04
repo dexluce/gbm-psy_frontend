@@ -8,9 +8,14 @@ import { CreateEvenementComponent } from './event/create-evenement/create-evenem
 import { EventComponent } from './event/event/event.component';
 import { MeetingComponent } from './meeting/meeting/meeting.component';
 import { LogoutComponent } from './auth/logout/logout.component';
+import { CreateUserComponent } from './auth/create-user/create-user.component';
 
 
 const routes: Routes = [
+  {
+    path: 'create-user',
+    component: CreateUserComponent
+  },
   {
     path: 'logout',
     component: LogoutComponent,
