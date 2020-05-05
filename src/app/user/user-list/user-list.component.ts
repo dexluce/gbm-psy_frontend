@@ -8,7 +8,7 @@ import { PaginatedDatasource } from 'src/app/core/app-datatable/paginated-dataso
   styleUrls: ['./user-list.component.scss'],
 })
 export class UserListComponent {
-  displayedColumns = ['firstname', 'lastname', 'email', 'actions'];
+  displayedColumns = ['firstname', 'lastname', 'email', 'role', 'actions'];
   datasource: PaginatedDatasource<User>;
 
   constructor(public usersQql: UsersGQL) {
@@ -24,7 +24,10 @@ export class UserListComponent {
         return 'nom';
 
       case 'email':
-        return 'couriel';
+        return 'Couriel';
+
+      case 'role':
+        return 'Role';
 
       default:
         return '-';
