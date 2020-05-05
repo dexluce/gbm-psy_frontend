@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LoginGQL } from 'src/generated/graphql';
 
 @Component({
   selector: 'app-login',
@@ -18,9 +19,9 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService
-  ) {
-  }
+    private authService: AuthService,
+    private loginGql: LoginGQL,
+  ) { }
 
   ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || ['/'];
@@ -37,20 +38,25 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.loginInvalid = '';
-    this.formSubmitAttempt = true;
 
     if (this.form.valid) {
-      this.authService.login({
+      this.formSubmitAttempt = true;
+
+      this.loginGql.mutate({
         email: this.form.get('username').value,
         password: this.form.get('password').value,
-      }).then(() => {
-        this.loginInvalid = '';
-        this.router.navigateByUrl(this.returnUrl);
-      }).catch(e => {
+      }).toPromise().then((result) => {
+        if (result.errors) {
+          this.loginInvalid = result.errors[0].message;
+          return;
+        } else {
+          this.loginInvalid = '';
+          this.authService.storeAccessToken(result.data.login.token);
+          this.router.navigateByUrl(this.returnUrl);
+        }
+      }).catch((e) => {
         this.loginInvalid = e;
-      });
+      }).finally(() => this.formSubmitAttempt = false);
     }
-
-    this.formSubmitAttempt = false;
   }
 }
