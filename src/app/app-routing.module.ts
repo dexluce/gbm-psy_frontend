@@ -1,4 +1,4 @@
-import { NgModule, ViewChildren } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { AuthGuard } from './auth/auth.guard';
@@ -8,12 +8,12 @@ import { CreateEvenementComponent } from './event/create-evenement/create-evenem
 import { EventComponent } from './event/event/event.component';
 import { MeetingComponent } from './meeting/meeting/meeting.component';
 import { LogoutComponent } from './auth/logout/logout.component';
-import { CreateUserComponent } from './auth/create-user/create-user.component';
+import { CreateUserComponent } from './user/create-user/create-user.component';
 
 
 const routes: Routes = [
   {
-    path: 'create-user',
+    path: 'signin',
     component: CreateUserComponent
   },
   {
@@ -30,7 +30,16 @@ const routes: Routes = [
     children: [
       {
         path: 'users',
-        component: UserListComponent,
+        children: [
+          {
+            path: 'create',
+            component: CreateUserComponent,
+          },
+          {
+            path: '',
+            component: UserListComponent,
+          },
+        ]
       },
       {
         path: 'events',

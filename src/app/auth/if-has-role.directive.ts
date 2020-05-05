@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
 })
 export class IfHasRoleDirective implements OnInit, OnDestroy {
   private mustHaveRoles: Role[];
-  subscriptionToUserConnected: Subscription;
+  subscriptionToUserConnected = new Subscription();
   isVisible = false;
   @Input() set appIfHasRole(roles: Role[]) {
     if (roles) {

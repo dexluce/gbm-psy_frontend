@@ -22,6 +22,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   imports: [
@@ -47,6 +48,7 @@ import { MatRadioModule } from '@angular/material/radio';
     MatNativeDateModule,
     MatGoogleMapsAutocompleteModule,
     MatRadioModule,
+    MatSnackBarModule,
   ],
   exports: [
     MatButtonModule,
@@ -71,6 +73,7 @@ import { MatRadioModule } from '@angular/material/radio';
     MatNativeDateModule,
     MatGoogleMapsAutocompleteModule,
     MatRadioModule,
+    MatSnackBarModule,
   ]
 })
 export class MaterialModule { }

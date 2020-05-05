@@ -55,10 +55,16 @@ export type CreateMeetingInput = {
 export type CreateUserInput = {
   email: Scalars['String'];
   password: Scalars['String'];
-  firstname?: Maybe<Scalars['String']>;
-  lastname?: Maybe<Scalars['String']>;
-  isActive: Scalars['Boolean'];
-  role: Scalars['String'];
+  firstname: Scalars['String'];
+  lastname: Scalars['String'];
+  sex: Sex;
+  phone: Scalars['String'];
+  profession: Scalars['String'];
+  profession_place: Scalars['String'];
+  personnal_address: Scalars['String'];
+  chargeable_address: Scalars['String'];
+  isActive?: Maybe<Scalars['Boolean']>;
+  role?: Maybe<Role>;
 };
 
 
@@ -202,6 +208,12 @@ export enum Role {
   Participant = 'PARTICIPANT'
 }
 
+/** User sex */
+export enum Sex {
+  Monsieur = 'MONSIEUR',
+  Madame = 'MADAME'
+}
+
 export type SubscriptionToEvenement = {
    __typename?: 'SubscriptionToEvenement';
   id: Scalars['ID'];
@@ -224,10 +236,16 @@ export type User = {
   id: Scalars['ID'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
+  sex: Sex;
+  firstname: Scalars['String'];
+  lastname: Scalars['String'];
   email: Scalars['String'];
-  firstname?: Maybe<Scalars['String']>;
+  phone: Scalars['String'];
+  profession: Scalars['String'];
+  profession_place: Scalars['String'];
+  personnal_address: Scalars['String'];
+  chargeable_address?: Maybe<Scalars['String']>;
   isActive: Scalars['Boolean'];
-  lastname?: Maybe<Scalars['String']>;
   role: Role;
   subscriptionsToEvenement: Array<SubscriptionToEvenement>;
 };
@@ -293,6 +311,30 @@ export type CreateMeetingInEvenementMutation = (
       & EvenementFragment
     ) }
     & MeetingFragment
+  ) }
+);
+
+export type CreateUserMutationVariables = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+  firstname: Scalars['String'];
+  lastname: Scalars['String'];
+  sex: Sex;
+  phone: Scalars['String'];
+  profession: Scalars['String'];
+  profession_place: Scalars['String'];
+  personnal_address: Scalars['String'];
+  chargeable_address: Scalars['String'];
+  isActive?: Maybe<Scalars['Boolean']>;
+  role?: Maybe<Role>;
+};
+
+
+export type CreateUserMutation = (
+  { __typename?: 'Mutation' }
+  & { createUser: (
+    { __typename?: 'User' }
+    & UserFragment
   ) }
 );
 
@@ -527,6 +569,21 @@ ${EvenementFragmentDoc}`;
   })
   export class CreateMeetingInEvenementGQL extends Apollo.Mutation<CreateMeetingInEvenementMutation, CreateMeetingInEvenementMutationVariables> {
     document = CreateMeetingInEvenementDocument;
+    
+  }
+export const CreateUserDocument = gql`
+    mutation CreateUser($email: String!, $password: String!, $firstname: String!, $lastname: String!, $sex: Sex!, $phone: String!, $profession: String!, $profession_place: String!, $personnal_address: String!, $chargeable_address: String!, $isActive: Boolean, $role: Role) {
+  createUser(data: {email: $email, password: $password, firstname: $firstname, lastname: $lastname, sex: $sex, phone: $phone, profession: $profession, profession_place: $profession_place, personnal_address: $personnal_address, chargeable_address: $chargeable_address, isActive: $isActive, role: $role}) {
+    ...user
+  }
+}
+    ${UserFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateUserGQL extends Apollo.Mutation<CreateUserMutation, CreateUserMutationVariables> {
+    document = CreateUserDocument;
     
   }
 export const LoginDocument = gql`

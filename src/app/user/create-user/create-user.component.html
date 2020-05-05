@@ -1,0 +1,165 @@
+<mat-card>
+  <mat-card-content>
+    <form
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+      fxLayout="column wrap"
+      (keydown.enter)="$event.preventDefault()"
+    >
+      <h2>Créer un compte</h2>
+      <small>Les comptes utilisateurs G&BM-psy sont déstinés à s'inscrire aux formations G&BM-psy. Vos informations détaillées sont requises.</small>
+      <span fxFlex="30px"></span>
+      <mat-error *ngIf="createInvalid">
+        {{createInvalid}}
+      </mat-error>
+      <!-- FIRST SECTION -->
+      <section fxLayout="column" fxLayoutGap="20px">
+        <mat-radio-group formControlName="sex" fxLayout="row wrap" fxLayoutGap="20px">
+          <mat-radio-button [value]="appSex.Monsieur">Monsieur</mat-radio-button>
+          <mat-radio-button [value]="appSex.Madame">Madame</mat-radio-button>
+          <mat-error *ngIf="form.controls.sex.invalid">
+            Veuillez entrer votre titre
+          </mat-error>
+        </mat-radio-group>
+
+        <span fxLayout="row wrap" fxLayoutGap="20px">
+          <mat-form-field>
+            <input matInput placeholder="Prénom" formControlName="firstname">
+            <mat-error>
+              Veuillez entrer votre prénom
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Nom" formControlName="lastname">
+            <mat-error>
+              Veuillez entrer votre nom
+            </mat-error>
+          </mat-form-field>
+        </span>
+
+        <span fxLayout="row wrap" fxLayoutGap="20px">
+          <mat-form-field>
+            <input matInput type="email" placeholder="Email" formControlName="email">
+            <mat-error *ngIf="form.controls.email.invalid">
+              <ng-container *ngIf="form.controls.email.errors.required; else emailInvalid">
+                Veuillez entrer votre email
+              </ng-container>
+              <ng-template #emailInvalid>
+                Veuillez entrer un email valid
+              </ng-template>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput type="email" placeholder="Confirmation du votre email" formControlName="confirm_email">
+            <mat-error *ngIf="form.controls.confirm_email.invalid">
+              <ng-container *ngIf="form.controls.confirm_email.errors.required; else missMatchEmail">
+                Veuillez confirmer votre email
+              </ng-container>
+              <ng-template #missMatchEmail>
+                Ne correspond à votre email
+              </ng-template>
+            </mat-error>
+          </mat-form-field>
+        </span>
+
+        <mat-form-field>
+          <input matInput type="tel" placeholder="Téléphone de contact" formControlName="phone">
+          <mat-error>
+            Veuillez entrer un téléphone de contact valid
+          </mat-error>
+        </mat-form-field>
+
+        <span fxLayout="row wrap" fxLayoutGap="20px">
+          <mat-form-field>
+            <input matInput type="password" placeholder="Mot de passe" formControlName="password">
+            <mat-error *ngIf="form.controls.password.invalid">
+              <ng-container *ngIf="form.controls.password.errors.required; else minLenghtError">
+                Veuillez entrer un mot de passe
+              </ng-container>
+              <ng-template #minLenghtError>
+                Votre mot de passe doit faire 8 charactères au moins
+              </ng-template>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput type="password" placeholder="Confirmation du mot de passe" formControlName="confirm_password">
+            <mat-error *ngIf="form.controls.confirm_password.invalid">
+              <ng-container *ngIf="form.controls.confirm_password.errors.required; else missMatchPassword">
+                Veuillez confirmer votre mot de passe
+              </ng-container>
+              <ng-template #missMatchPassword>
+                Ne correspond à votre mot de passe
+              </ng-template>
+            </mat-error>
+          </mat-form-field>
+        </span>
+      </section>
+
+      <!-- SECOND SECTION -->
+      <section fxLayout="column" fxLayoutGap="20px">
+        <span fxLayout="row wrap" fxLayoutGap="20px">
+          <mat-form-field>
+            <input matInput placeholder="Profession" formControlName="profession">
+            <mat-error>
+              Veuillez entrer votre profession
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="Lieu" formControlName="profession_place">
+            <mat-error>
+              Ou exercez-vous votre profession?
+            </mat-error>
+          </mat-form-field>
+        </span>
+
+        <mat-form-field>
+          <input
+            type="address"
+            placeholder="Votre adresse personnelle"
+            matInput
+            matGoogleMapsAutocomplete
+            formControlName="personnal_address"
+            (onAutocompleteSelected)="onPersonnalAddressSelected($event)"
+          >
+          <mat-error>
+            Veuillez entrer votre adresse
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input
+            type="address"
+            placeholder="Votre adresse de facturation (si différent de l'adresse personnelle"
+            matInput
+            matGoogleMapsAutocomplete
+            formControlName="chargeable_address"
+            (onAutocompleteSelected)="onChargeableAddressSelected($event)"
+          >
+        </mat-form-field>
+      </section>
+
+      <!-- ADMINISTRATOR SECTION -->
+      <section fxLayout="column" fxLayoutGap="20px" *appIfHasRole="[appRoles.Admin]">
+        <p>
+          Option d'administration
+        </p>
+        <mat-form-field>
+          <mat-label>Role de l'utilisateur</mat-label>
+          <mat-select formControlName="role" name="role">
+            <mat-option *ngFor="let role of roleToIterable()" [value]="appRoles[role]">
+              {{appRoles[role]}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-checkbox formControlName="isActive">
+          Activer l'utilisateur <small fxHide.lt-md>(L'utilisateur pourra utiliser son compte immédiatement sans vérification de son email)</small>
+        </mat-checkbox>
+      </section>
+      <button mat-raised-button color="primary" [disabled]="formSubmitAttempt">Créer</button>
+    </form>
+  </mat-card-content>
+</mat-card>
