@@ -29,6 +29,9 @@
       <div style="height: 56px;">
           <img mat-card-image src="assets/logo-white-min.png" alt="logo GBM" height="100%">
       </div>
+      <div fxFlex fxLayoutAlign="center" *ngIf="userConnected">
+        <small>Bonjour {{userConnected.firstname}} {{userConnected.lastname}}</small>
+      </div>
       <div fxFlex fxLayout fxLayoutAlign="flex-end"  fxHide.xs>
         <ul fxLayout fxLayoutGap="20px" class="navigation-items">
           <li>
