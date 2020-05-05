@@ -8,11 +8,13 @@
 
     <ng-template #actionsCol>
       <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
-      <mat-cell *matCellDef="let item">{{item}}</mat-cell>
+      <mat-cell *matCellDef="let item">
+        
+      </mat-cell>
     </ng-template>
 
     <ng-template #normalCol>
-      <mat-header-cell *matHeaderCellDef>{{column}}</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>{{columnToReadable(column)}}</mat-header-cell>
       <mat-cell *matCellDef="let item">{{item[column]}}</mat-cell>
     </ng-template>
   </ng-container>
