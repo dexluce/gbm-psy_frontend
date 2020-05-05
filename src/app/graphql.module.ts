@@ -9,18 +9,6 @@ import { AuthService } from 'src/app/auth/auth.service';
 
 // GRAPHQL ERROR INTERCEPTOR
 const linkError = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors) {
-    graphQLErrors.forEach(graphQLError => {
-      switch (graphQLError.message) {
-        case 'Unauthorized':
-          localStorage.removeItem('accessToken');
-          location.reload();
-          break;
-        default:
-          break;
-      }
-    });
-  }
   if (networkError) { throw networkError; }
 });
 
