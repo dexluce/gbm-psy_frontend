@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import PlaceResult = google.maps.places.PlaceResult;
-import { Role, CreateUserGQL, Sex } from 'src/generated/graphql';
+import { Role, CreateUserGQL, Sex, CreateUserByAdminGQL } from 'src/generated/graphql';
 import { AuthService } from 'src/app/auth/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -21,6 +21,7 @@ export class CreateUserComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private createUserGql: CreateUserGQL,
+    private createUserByAdminGql: CreateUserByAdminGQL,
     private router: Router,
     private authService: AuthService,
     private snackBarService: MatSnackBar
@@ -53,10 +54,18 @@ export class CreateUserComponent implements OnInit {
 
   onSubmit() {
     this.createInvalid = '';
-    this.formSubmitAttempt = true;
-
+    
     if (this.form.valid) {
-      this.createUserGql.mutate({
+      this.formSubmitAttempt = true;
+
+      let service;
+      if (this.authService.isAuthenticated()) {
+        service = this.createUserByAdminGql;
+      } else {
+        service = this.createUserGql;
+      }
+
+      service.mutate({
         email: this.form.get('email').value,
         password: this.form.get('password').value,
         firstname: this.form.get('firstname').value,
@@ -86,12 +95,10 @@ export class CreateUserComponent implements OnInit {
             this.router.navigateByUrl('/login');
           }, 5000);
         }
-      }).catch(e => {
+      }).catch((e) => {
           this.createInvalid = e;
-      });
+      }).finally(() => this.formSubmitAttempt = false);
     }
-
-    this.formSubmitAttempt = false;
   }
 
   confirmedValidator(controlName: string, matchingControlName: string){

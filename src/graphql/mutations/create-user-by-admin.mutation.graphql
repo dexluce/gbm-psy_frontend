@@ -1,0 +1,33 @@
+mutation CreateUserByAdmin(
+  $email: String!,
+  $password: String!,
+  $firstname: String!,
+  $lastname: String!,
+  $sex: Sex!,
+  $phone: String!,
+  $profession: String!,
+  $profession_place: String!,
+  $personnal_address: String!,
+  $chargeable_address: String!,
+  $isActive: Boolean,
+  $role: Role,
+) {
+  createUserByAdmin(
+    data: {
+      email: $email,
+      password: $password,
+      firstname: $firstname,
+      lastname: $lastname,
+      sex: $sex,
+      phone: $phone,
+      profession: $profession,
+      profession_place: $profession_place,
+      personnal_address: $personnal_address,
+      chargeable_address: $chargeable_address,
+      isActive: $isActive,
+      role: $role
+    }
+  ) {
+    ...user
+  }
+}

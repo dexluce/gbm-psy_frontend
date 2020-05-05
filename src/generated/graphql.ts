@@ -102,6 +102,7 @@ export type Meeting = {
 export type Mutation = {
    __typename?: 'Mutation';
   createUser: User;
+  createUserByAdmin: User;
   updateUser: User;
   changePassword: User;
   createEvenement: Evenement;
@@ -112,6 +113,11 @@ export type Mutation = {
 
 
 export type MutationCreateUserArgs = {
+  data: CreateUserInput;
+};
+
+
+export type MutationCreateUserByAdminArgs = {
   data: CreateUserInput;
 };
 
@@ -311,6 +317,30 @@ export type CreateMeetingInEvenementMutation = (
       & EvenementFragment
     ) }
     & MeetingFragment
+  ) }
+);
+
+export type CreateUserByAdminMutationVariables = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+  firstname: Scalars['String'];
+  lastname: Scalars['String'];
+  sex: Sex;
+  phone: Scalars['String'];
+  profession: Scalars['String'];
+  profession_place: Scalars['String'];
+  personnal_address: Scalars['String'];
+  chargeable_address: Scalars['String'];
+  isActive?: Maybe<Scalars['Boolean']>;
+  role?: Maybe<Role>;
+};
+
+
+export type CreateUserByAdminMutation = (
+  { __typename?: 'Mutation' }
+  & { createUserByAdmin: (
+    { __typename?: 'User' }
+    & UserFragment
   ) }
 );
 
@@ -569,6 +599,21 @@ ${EvenementFragmentDoc}`;
   })
   export class CreateMeetingInEvenementGQL extends Apollo.Mutation<CreateMeetingInEvenementMutation, CreateMeetingInEvenementMutationVariables> {
     document = CreateMeetingInEvenementDocument;
+    
+  }
+export const CreateUserByAdminDocument = gql`
+    mutation CreateUserByAdmin($email: String!, $password: String!, $firstname: String!, $lastname: String!, $sex: Sex!, $phone: String!, $profession: String!, $profession_place: String!, $personnal_address: String!, $chargeable_address: String!, $isActive: Boolean, $role: Role) {
+  createUserByAdmin(data: {email: $email, password: $password, firstname: $firstname, lastname: $lastname, sex: $sex, phone: $phone, profession: $profession, profession_place: $profession_place, personnal_address: $personnal_address, chargeable_address: $chargeable_address, isActive: $isActive, role: $role}) {
+    ...user
+  }
+}
+    ${UserFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateUserByAdminGQL extends Apollo.Mutation<CreateUserByAdminMutation, CreateUserByAdminMutationVariables> {
+    document = CreateUserByAdminDocument;
     
   }
 export const CreateUserDocument = gql`
