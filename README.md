@@ -1,3 +1,6 @@
+This code is under ©copyright license. It is accessible for documentation and learning purpose only.
+
+## RUN
 see [root project](https://github.com/dexluce/gbm-psy) to learn a bit more about how to start this.
 
 ## About
