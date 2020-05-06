@@ -42,7 +42,7 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'events',
+        path: 'evenement',
         children: [
           {
             path: 'create',
@@ -66,7 +66,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '/admin/events',
+    redirectTo: '/admin/evenement',
   }
 ];
 

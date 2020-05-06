@@ -46,7 +46,7 @@ export class CreateEvenementComponent implements OnInit {
         take(1),
       ).subscribe(({ data, errors }) => {
         this.formSubmitAttempt = false;
-        if (data) { this.router.navigate(['events']); }
+        if (data) { this.router.navigate(['evenement']); }
         if (errors) { this.formInvalid = errors.map(e => e.message).toString(); }
       });
     }
