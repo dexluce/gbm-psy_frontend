@@ -3,11 +3,11 @@ import { Evenement, EvenementsGQL } from 'src/generated/graphql';
 import { PaginatedDatasource } from 'src/app/core/app-datatable/paginated-datasource';
 
 @Component({
-  selector: 'app-event-list',
-  templateUrl: './event-list.component.html',
-  styleUrls: ['./event-list.component.scss']
+  selector: 'app-evenement-list',
+  templateUrl: './evenement-list.component.html',
+  styleUrls: ['./evenement-list.component.scss']
 })
-export class EventListComponent {
+export class EvenementListComponent {
   displayedColumns = ['title', 'isActive', 'isPublic', 'actions'];
   datasource: PaginatedDatasource<Evenement>;
 

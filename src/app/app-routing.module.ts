@@ -3,12 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { AuthGuard } from './auth/auth.guard';
 import { UserListComponent } from './user/user-list/user-list.component';
-import { EventListComponent } from './event/event-list/event-list.component';
-import { CreateEvenementComponent } from './event/create-evenement/create-evenement.component';
-import { EventComponent } from './event/event/event.component';
+import { CreateEvenementComponent } from './evenement/create-evenement/create-evenement.component';
 import { MeetingComponent } from './meeting/meeting/meeting.component';
 import { LogoutComponent } from './auth/logout/logout.component';
 import { CreateUserComponent } from './user/create-user/create-user.component';
+import { EvenementComponent } from './evenement/evenement/evenement.component';
+import { EvenementListComponent } from './evenement/evenement-list/evenement-list.component';
 
 
 const routes: Routes = [
@@ -50,11 +50,11 @@ const routes: Routes = [
           },
           {
             path: ':id',
-            component: EventComponent
+            component: EvenementComponent
           },
           {
             path: '',
-            component: EventListComponent,
+            component: EvenementListComponent,
           },
         ]
       },

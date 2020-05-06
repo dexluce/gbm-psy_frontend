@@ -11,7 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
 import { TokenInterceptor } from './token.interceptor';
 import { UserModule } from './user/user.module';
-import { EventModule } from './event/event.module';
+import { EvenementModule } from './evenement/evenement.module';
 import { GraphQLModule } from './graphql.module';
 import { AgmCoreModule } from '@agm/core';
 import { environment } from 'src/environments/environment';
@@ -31,7 +31,7 @@ import { environment } from 'src/environments/environment';
     HttpClientModule,
     MaterialModule,
     UserModule,
-    EventModule,
+    EvenementModule,
     GraphQLModule,
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapApiKey,

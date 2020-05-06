@@ -4,11 +4,11 @@ import { EvenementGQL, Role } from 'src/generated/graphql';
 import { take, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-event',
-  templateUrl: './event.component.html',
-  styleUrls: ['./event.component.scss']
+  selector: 'app-evenement',
+  templateUrl: './evenement.component.html',
+  styleUrls: ['./evenement.component.scss']
 })
-export class EventComponent implements OnInit {
+export class EvenementComponent implements OnInit {
   evenement;
   error = '';
   initialPanel = '';

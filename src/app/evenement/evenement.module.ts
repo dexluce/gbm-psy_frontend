@@ -1,21 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EventListComponent } from './event-list/event-list.component';
+import { EvenementListComponent } from './evenement-list/evenement-list.component';
 import { CoreModule } from '../core/core.module';
 import { CreateEvenementComponent } from './create-evenement/create-evenement.component';
 import { MaterialModule } from '../material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-import { EventComponent } from './event/event.component';
+import { EvenementComponent } from './evenement/evenement.component';
 import { MeetingModule } from '../meeting/meeting.module';
 import { AuthModule } from '../auth/auth.module';
 import { EvenementActionsMenuComponent } from './evenement-actions-menu/evenement-actions-menu.component';
 
 @NgModule({
   declarations: [
-    EventListComponent,
+    EvenementListComponent,
     CreateEvenementComponent,
-    EventComponent,
+    EvenementComponent,
     EvenementActionsMenuComponent
   ],
   imports: [
@@ -31,4 +31,4 @@ import { EvenementActionsMenuComponent } from './evenement-actions-menu/evenemen
   providers: [
   ],
 })
-export class EventModule { }
+export class EvenementModule { }
