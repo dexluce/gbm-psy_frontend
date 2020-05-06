@@ -87,7 +87,7 @@ export class CreateUserComponent implements OnInit {
         if (this.authService.isAuthenticated()) {
           this.snackBarService.open('Compte crée avec success. Vous allez être redirigé vers la liste d\'utilisateur dans 5 secondes', null, { duration: 5000 });
           setTimeout(() => {
-            this.router.navigateByUrl('/admin/users');
+            this.router.navigateByUrl('/admin/user');
           }, 5000);
         } else {
           this.snackBarService.open('Compte crée avec success. Vous allez être redirigé vers la page de connection dans 5 secondes', null, { duration: 5000 });
