@@ -14,7 +14,7 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PaginatedDatasource } from './paginated-datasource';
-import { PaginableRessource } from 'src/generated/graphql';
+import { PaginableRessource, Role } from 'src/generated/graphql';
 import { MatColumnDef, MatTable } from '@angular/material/table';
 import { tap } from 'rxjs/operators';
 
@@ -24,6 +24,7 @@ import { tap } from 'rxjs/operators';
   styleUrls: ['./app-datatable.component.scss'],
 })
 export class AppDatatableComponent implements OnInit, AfterContentInit, AfterViewInit, OnDestroy {
+  appRoles = Role;
   @Input() dataSource: PaginatedDatasource<PaginableRessource[]>;
   @Input() displayedColumns: string[] = [];
 

@@ -5,9 +5,11 @@ import { MaterialModule } from '../material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { getFrenchPaginatorIntl } from './app-datatable/fr-paginator-intl';
+import { ClickPreventPropagationDirective } from './click-prevent-propagation.directive';
+import { AuthModule } from '../auth/auth.module';
 
 @NgModule({
-  declarations: [AppDatatableComponent],
+  declarations: [AppDatatableComponent, ClickPreventPropagationDirective],
   providers: [
     { provide: MatPaginatorIntl, useValue: getFrenchPaginatorIntl() },
   ],
@@ -15,9 +17,11 @@ import { getFrenchPaginatorIntl } from './app-datatable/fr-paginator-intl';
     CommonModule,
     MaterialModule,
     FlexLayoutModule,
+    AuthModule
   ],
   exports: [
     AppDatatableComponent,
+    ClickPreventPropagationDirective,
   ],
 })
 export class CoreModule { }

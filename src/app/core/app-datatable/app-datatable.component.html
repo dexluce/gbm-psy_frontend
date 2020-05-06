@@ -7,7 +7,7 @@
       </mat-icon>
     </mat-form-field>
     <span fxFlex="1 1 auto"></span>
-    <button mat-button (click)="onCreateClicked()">
+    <button mat-button (click)="onCreateClicked()" *appIfHasRole="[appRoles.Admin, appRoles.Formator]">
       <mat-icon>add</mat-icon>
     </button>
   </mat-toolbar-row>
