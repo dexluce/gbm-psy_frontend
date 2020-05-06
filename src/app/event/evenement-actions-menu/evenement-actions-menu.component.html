@@ -1,0 +1,24 @@
+<ng-container *ngIf="evenement">
+  <button mat-raised-button color="primary" [matMenuTriggerFor]="menu" appClickPreventPropagation>Actions</button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item *appIfHasRole="[appRoles.Admin]">
+      <ng-container *ngIf="evenement.isActive; else activate">
+        Désactiver
+      </ng-container>
+      <ng-template #activate>
+        Activer
+      </ng-template>
+    </button>
+    <button mat-menu-item *appIfHasRole="[appRoles.Admin]">
+      <ng-container *ngIf="evenement.isPublic; else publish">
+        Dépublier
+      </ng-container>
+      <ng-template #publish>
+        Publier
+      </ng-template>
+    </button>
+    <button mat-menu-item *appIfHasRole="[appRoles.Participant]">
+      S'inscrire
+    </button>
+  </mat-menu>
+</ng-container>

@@ -9,7 +9,7 @@
     <ng-template #actionsCol>
       <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
       <mat-cell *matCellDef="let item">
-        
+        <app-evenement-actions-menu [evenementId]="item.id"></app-evenement-actions-menu>
       </mat-cell>
     </ng-template>
 
