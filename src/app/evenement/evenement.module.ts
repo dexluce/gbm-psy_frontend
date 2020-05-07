@@ -10,6 +10,7 @@ import { EvenementComponent } from './evenement/evenement.component';
 import { MeetingModule } from '../meeting/meeting.module';
 import { AuthModule } from '../auth/auth.module';
 import { EvenementActionsMenuComponent } from './evenement-actions-menu/evenement-actions-menu.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { EvenementActionsMenuComponent } from './evenement-actions-menu/evenemen
     FormsModule,
     ReactiveFormsModule,
     MeetingModule,
-    AuthModule
+    AuthModule,
+    RouterModule,
   ],
   providers: [
   ],

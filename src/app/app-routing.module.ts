@@ -9,6 +9,7 @@ import { LogoutComponent } from './auth/logout/logout.component';
 import { CreateUserComponent } from './user/create-user/create-user.component';
 import { EvenementComponent } from './evenement/evenement/evenement.component';
 import { EvenementListComponent } from './evenement/evenement-list/evenement-list.component';
+import { CreateSubscriptionToEvenementComponent } from './subscription-to-evenement/create-subscription-to-evenement/create-subscription-to-evenement.component';
 
 
 const routes: Routes = [
@@ -61,6 +62,15 @@ const routes: Routes = [
       {
         path: 'meeting/:id',
         component: MeetingComponent
+      },
+      {
+        path: 'subscription',
+        children: [
+          {
+            path: 'create',
+            component: CreateSubscriptionToEvenementComponent,
+          }
+        ]
       }
     ]
   },

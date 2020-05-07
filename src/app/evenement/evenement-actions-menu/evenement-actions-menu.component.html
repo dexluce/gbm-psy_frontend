@@ -17,7 +17,7 @@
         Publier
       </ng-template>
     </button>
-    <button mat-menu-item *appIfHasRole="[appRoles.Participant]">
+    <button mat-menu-item *appIfHasRole="[appRoles.Participant]" [routerLink]="'/admin/subscription/create'">
       S'inscrire
     </button>
   </mat-menu>
